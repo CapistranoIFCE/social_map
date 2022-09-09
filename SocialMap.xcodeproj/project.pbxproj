@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001D907828CB638700DBF549 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001D907728CB638700DBF549 /* MapView.swift */; };
+		001D907C28CB693900DBF549 /* UserFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001D907B28CB693900DBF549 /* UserFeedController.swift */; };
 		352DB76628CA17D200A377E6 /* SocialMapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76528CA17D200A377E6 /* SocialMapApp.swift */; };
-		352DB76828CA17D200A377E6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76728CA17D200A377E6 /* ContentView.swift */; };
+		352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76728CA17D200A377E6 /* UserFeedView.swift */; };
 		352DB76A28CA17D300A377E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76928CA17D300A377E6 /* Assets.xcassets */; };
 		352DB76D28CA17D300A377E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		001D907728CB638700DBF549 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		001D907B28CB693900DBF549 /* UserFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedController.swift; sourceTree = "<group>"; };
 		352DB76228CA17D200A377E6 /* SocialMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		352DB76528CA17D200A377E6 /* SocialMapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMapApp.swift; sourceTree = "<group>"; };
-		352DB76728CA17D200A377E6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		352DB76728CA17D200A377E6 /* UserFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedView.swift; sourceTree = "<group>"; };
 		352DB76928CA17D300A377E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,6 +36,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		001D907528CB635000DBF549 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				001D907928CB690B00DBF549 /* UserFeed */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		001D907628CB636A00DBF549 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				001D907728CB638700DBF549 /* MapView.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		001D907928CB690B00DBF549 /* UserFeed */ = {
+			isa = PBXGroup;
+			children = (
+				352DB76728CA17D200A377E6 /* UserFeedView.swift */,
+				001D907B28CB693900DBF549 /* UserFeedController.swift */,
+			);
+			path = UserFeed;
+			sourceTree = "<group>";
+		};
 		352DB75928CA17D200A377E6 = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +123,8 @@
 		352DB77728CA181A00A377E6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				352DB76728CA17D200A377E6 /* ContentView.swift */,
+				001D907628CB636A00DBF549 /* General */,
+				001D907528CB635000DBF549 /* Core */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -169,7 +199,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				352DB76828CA17D200A377E6 /* ContentView.swift in Sources */,
+				352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */,
+				001D907828CB638700DBF549 /* MapView.swift in Sources */,
+				001D907C28CB693900DBF549 /* UserFeedController.swift in Sources */,
 				352DB76628CA17D200A377E6 /* SocialMapApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
