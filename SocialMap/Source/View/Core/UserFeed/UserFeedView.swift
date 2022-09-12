@@ -2,13 +2,13 @@ import SwiftUI
 import MapKit
 
 struct UserFeedView: View {
-    @ObservedObject private var controller = UserFeedController()
+    @StateObject private var controller = UserFeedController()
     
     var body: some View {
-        MapView ( coordinate: controller.userLocation ?? CLLocationCoordinate2D(latitude: 3.01, longitude: 4.0))
+        MapView ( coordinate: controller.userLocation?.center ?? CLLocationCoordinate2D(latitude: 3.01, longitude: 4.0))
         .ignoresSafeArea()
         .onAppear {
-            controller.loadUserLocation()
+            controller.checkIfLocationServiceIsEnable()
         }
     }
 }
