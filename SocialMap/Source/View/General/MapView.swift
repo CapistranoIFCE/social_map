@@ -8,14 +8,29 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
-        configure(with: mapView)
+        mapView.setRegion(
+            MKCoordinateRegion(center: coordinate,
+                               span: MKCoordinateSpan(
+                                    latitudeDelta: 0.01,
+                                    longitudeDelta: 0.01)
+                              ),
+            animated: true
+        )
     
         return mapView
     }
     
     func configure(with map: MKMapView) {
-        map.setRegion(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)), animated: true)
-        addPin(on: map)
+        map.setRegion(
+            MKCoordinateRegion(center: coordinate,
+                               span: MKCoordinateSpan(
+                                    latitudeDelta: 0.01,
+                                    longitudeDelta: 0.01)
+                              ),
+            animated: true
+        )
+        map.showsUserLocation = true
+//        addPin(on: map)
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {

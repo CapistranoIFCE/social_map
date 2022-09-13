@@ -13,6 +13,7 @@
 		352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76728CA17D200A377E6 /* UserFeedView.swift */; };
 		352DB76A28CA17D300A377E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76928CA17D300A377E6 /* Assets.xcassets */; };
 		352DB76D28CA17D300A377E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */; };
+		B25315D428CF558700BD40DC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25315D328CF558700BD40DC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		352DB76728CA17D200A377E6 /* UserFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedView.swift; sourceTree = "<group>"; };
 		352DB76928CA17D300A377E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B25315D328CF558700BD40DC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B25315D428CF558700BD40DC /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +69,7 @@
 			children = (
 				352DB76428CA17D200A377E6 /* SocialMap */,
 				352DB76328CA17D200A377E6 /* Products */,
+				B25315D228CF558700BD40DC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +131,14 @@
 				001D907528CB635000DBF549 /* Core */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B25315D228CF558700BD40DC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B25315D328CF558700BD40DC /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,6 +345,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"SocialMap/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show it on the map";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -361,6 +374,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"SocialMap/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show it on the map";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
