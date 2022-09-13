@@ -34,9 +34,6 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ uiView: MKMapView, context: Context) {
         configure(with: uiView)
         uiView.delegate = self.coordinator
-        let pin = MKPointAnnotation()
-        pin.coordinate = locationCoordinate
-        uiView.addAnnotation(pin)
-//        uiView.addAnnotations(landmarks)
+        uiView.addAnnotations(landmarks)
     }
 }

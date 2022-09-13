@@ -4,6 +4,7 @@ import MapKit
 
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else { return nil }
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customView")
         annotationView.canShowCallout = true
         annotationView.image = UIImage(systemName: "photo")
