@@ -5,7 +5,7 @@ struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
     
     var body: some View {
-        MapView ( coordinate: controller.userLocation?.center ?? CLLocationCoordinate2D(latitude: 3.01, longitude: 4.0))
+        MapView ( coordinate: controller.userLocation?.center ?? .init())
         .ignoresSafeArea()
         .onAppear {
             controller.checkIfLocationServiceIsEnable()
