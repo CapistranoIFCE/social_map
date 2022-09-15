@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 struct UserFeedView: View {
-    @StateObject private var controller = UserFeedController()
+    @ObservedObject private var controller = UserFeedController()
     
     var body: some View {
         GeometryReader { (geometry) in
@@ -15,7 +15,7 @@ struct UserFeedView: View {
                 Rectangle()
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
                     .onTapGesture(count: 2, perform: {
-                        controller.goToNextImage()
+                        controller.goToPreviousImage()
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                     } )
                     .onTapGesture {
@@ -28,7 +28,7 @@ struct UserFeedView: View {
                 Rectangle()
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
                     .onTapGesture(count: 2, perform: {
-                        controller.goToPreviousImage()
+                        controller.goToNextImage()
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                     } )
                     .onTapGesture {
