@@ -4,9 +4,18 @@ import UIKit
 import MapKit
 
 struct MapView: UIViewRepresentable {
+    
     var landmarks: [LandmarkAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
+    
+    let mapView = MKMapView()
+    
+    
+    struct MyAnnotationItem: Identifiable {
+        var coordinate: CLLocationCoordinate2D
+        let id = UUID()
+    }
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -20,9 +29,14 @@ struct MapView: UIViewRepresentable {
             ),
             animated: true
         )
-    
+        
+        let oLongTapGesture = UILongPressGestureRecognizer(target: coordinator, action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:)))
+        
+        mapView.addGestureRecognizer(oLongTapGesture)
+        
         return mapView
     }
+
     
     func configure(with map: MKMapView) {
         UIView.animate(withDuration: 1.0) {
@@ -32,8 +46,9 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        configure(with: uiView)
-        uiView.delegate = self.coordinator
-        uiView.addAnnotations(landmarks)
+        configure(with: mapView)
+        mapView.delegate = self.coordinator
+        mapView.addAnnotations(landmarks)
     }
+    
 }

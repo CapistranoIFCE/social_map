@@ -1,6 +1,7 @@
 import SwiftUI
 import MapKit
 
+
 struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
     
@@ -10,7 +11,14 @@ struct UserFeedView: View {
                 landmarks: controller.mockedLandmarks,
                 coordinator: controller.mapViewCoordinator,
                 locationCoordinate: controller.userLocation?.center ?? .init()
+//                onTap: { _ in }
             )
+//            .gesture(DragGesture(minimumDistance: 0).onEnded({
+//                (value) in
+//                controller.mapViewCoordinator.handleTapGesture(location: CLLocationCoordinate2D(
+//                    latitude: value.location.x, longitude: value.location.y))
+//            }))
+            
             HStack {
                 Rectangle()
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
@@ -41,6 +49,9 @@ struct UserFeedView: View {
         .onAppear {
             controller.checkIfLocationServiceIsEnable()
         }
+        
+        
+        
     }
 }
 
