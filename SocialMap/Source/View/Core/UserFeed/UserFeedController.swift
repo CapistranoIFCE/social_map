@@ -11,6 +11,7 @@ class UserFeedController: NSObject, ObservableObject {
     let mapViewCoordinator = MapViewCoordinator()
     let mockedLandmarks = LandmarkAnnotation.requestMockData()
     
+    
     func goToNextImage() {
         if userLocation != nil {
             let nearestLandmarkRight = findNearLandmark (
