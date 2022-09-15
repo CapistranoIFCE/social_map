@@ -4,6 +4,7 @@ import UIKit
 import MapKit
 
 struct MapView: UIViewRepresentable {
+    
     var landmarks: [LandmarkAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
