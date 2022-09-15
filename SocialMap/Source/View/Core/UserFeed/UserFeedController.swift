@@ -11,6 +11,7 @@ class UserFeedController: NSObject, ObservableObject {
     let mapViewCoordinator = MapViewCoordinator()
     let mockedLandmarks = LandmarkAnnotation.requestMockData()
     
+    
     func goToNextImage() {
         if userLocation != nil {
             let currentUserLocation = mockedLandmarks[photoCount].coordinate
@@ -58,7 +59,7 @@ class UserFeedController: NSObject, ObservableObject {
             case .authorizedAlways, .authorizedWhenInUse:
                 userLocation = MKCoordinateRegion(
                     center: locationManager.location!.coordinate,
-                    span: MKCoordinateSpan(
+                    span: MKCoordinateSpan (
                         latitudeDelta: 0.05,
                         longitudeDelta: 0.05
                     )
