@@ -47,7 +47,6 @@ class UserFeedController: NSObject, ObservableObject {
                 }
             }
             
-//            if rigthLandmarks.isEmpty { return landmarks[0] } // ???
             rigthLandmarks = rigthLandmarks.sorted(by: { $0.coordinate.longitude < $1.coordinate.longitude })
             
             return rigthLandmarks.first
@@ -62,7 +61,6 @@ class UserFeedController: NSObject, ObservableObject {
                 }
             }
             
-//            if leftLandmarks.isEmpty { return landmarks[0] } // ???
             leftLandmarks = leftLandmarks.sorted(by: { $0.coordinate.longitude > $1.coordinate.longitude })
             
             return leftLandmarks.first

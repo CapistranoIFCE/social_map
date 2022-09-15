@@ -8,14 +8,18 @@
 import XCTest
 import MapKit
 @testable import SocialMap
+import CoreMIDI
 
 class UserFeedControllerTest: XCTestCase {
     var mockController: UserFeedController!
     var landmarks: [LandmarkAnnotation]!
+    var rigthSequentialLandmarks: [LandmarkAnnotation]!
+    var leftSequentialLandmarks: [LandmarkAnnotation]!
     
     override func setUp() {
         mockController = UserFeedController()
-        landmarks = [
+        
+        rigthSequentialLandmarks = [
             LandmarkAnnotation(
                 title: "sut1",
                 subtitle: "",
@@ -31,6 +35,27 @@ class UserFeedControllerTest: XCTestCase {
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
             ),
+        ]
+        
+        leftSequentialLandmarks = [
+            LandmarkAnnotation(
+                title: "sut3",
+                subtitle: "",
+                coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
+            ),
+            LandmarkAnnotation(
+                title: "sut2",
+                subtitle: "",
+                coordinate: CLLocationCoordinate2D(latitude: -3.74217, longitude: -38.53488)
+            ),
+            LandmarkAnnotation(
+                title: "sut1",
+                subtitle: "",
+                coordinate: CLLocationCoordinate2D(latitude: -3.7971866074375087, longitude: -38.56979534530145)
+            )
+        ]
+        
+        landmarks = [
             LandmarkAnnotation(
                 title: "sut4",
                 subtitle: "",
@@ -53,7 +78,7 @@ class UserFeedControllerTest: XCTestCase {
 
     
     func test_nearImageRight_shouldBe_valid() {
-        let startAt = landmarks[3].coordinate
+        let startAt = landmarks[0].coordinate
         let nearestRigthLandmark = mockController.findNearLandmark(
             on: DeviceSide.right,
             in: landmarks,
@@ -67,7 +92,7 @@ class UserFeedControllerTest: XCTestCase {
     }
     
     func test_nearImageLeft_shouldBe_valid() {
-        let startAt = landmarks[3].coordinate
+        let startAt = landmarks[0].coordinate
         let nearesleftLandmark = mockController.findNearLandmark(
             on: DeviceSide.left,
             in: landmarks,
@@ -80,5 +105,39 @@ class UserFeedControllerTest: XCTestCase {
         XCTAssertEqual(nearesleftLandmark!.title, expectedResult)
     }
     
-    func test_allNearImage
+    func test_allNearRightImages_shouldBe_valid() {
+        for (index, element) in rigthSequentialLandmarks.enumerated() {
+            let startAt = element.coordinate
+            
+            let nearestRightLandmark = mockController.findNearLandmark(
+                on: DeviceSide.right,
+                in: rigthSequentialLandmarks,
+                by: startAt
+            )
+            
+            if index < rigthSequentialLandmarks.count - 1 {
+                XCTAssertEqual(nearestRightLandmark, rigthSequentialLandmarks[index + 1])
+            } else {
+                XCTAssertNil(nearestRightLandmark)
+            }
+        }
+    }
+    
+    func test_allNearLeftImages_shouldBe_valid() {
+        for (index, element) in leftSequentialLandmarks.enumerated() {
+            let startAt = element.coordinate
+            
+            let nearestLeftLandmark = mockController.findNearLandmark(
+                on: DeviceSide.left,
+                in: leftSequentialLandmarks,
+                by: startAt
+            )
+            
+            if index < leftSequentialLandmarks.count - 1 {
+                XCTAssertEqual(nearestLeftLandmark, leftSequentialLandmarks[index + 1])
+            } else {
+                XCTAssertNil(nearestLeftLandmark)
+            }
+        }
+    }
 }
