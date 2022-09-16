@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 import PhotosUI
 
+
 struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
     @State private var isPresented: Bool = false
@@ -17,12 +18,14 @@ struct UserFeedView: View {
     }
     
     var body: some View {
+
         NavigationView{
             GeometryReader { (geometry) in
                 MapView (
                     landmarks: controller.mockedLandmarks,
                     coordinator: controller.mapViewCoordinator,
                     locationCoordinate: controller.userLocation?.center ?? .init()
+//                                    onTap: { _ in }
                 )
                 
                 HStack {
@@ -69,6 +72,9 @@ struct UserFeedView: View {
                 controller.checkIfLocationServiceIsEnable()
             }
         }
+        
+        
+        
     }
 }
 struct UserFeedView_Previews: PreviewProvider {
