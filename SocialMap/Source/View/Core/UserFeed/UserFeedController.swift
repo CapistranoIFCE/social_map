@@ -4,6 +4,7 @@ import UIKit
 import MapKit
 
 class UserFeedController: NSObject, ObservableObject {
+    
     @Published var userLocation: MKCoordinateRegion?
     
     var locationManager: CLLocationManager?

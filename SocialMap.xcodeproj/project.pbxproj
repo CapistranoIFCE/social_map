@@ -23,6 +23,7 @@
 		352DB76D28CA17D300A377E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */; };
 		358A5E2D28D4A4D6009D63F0 /* CustomGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358A5E2C28D4A4D6009D63F0 /* CustomGestureRecognizer.swift */; };
 		B25315D428CF558700BD40DC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25315D328CF558700BD40DC /* CoreLocation.framework */; };
+		B2A9A33328D36F400071A169 /* UserComponentStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A9A33228D36F400071A169 /* UserComponentStory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		358A5E2C28D4A4D6009D63F0 /* CustomGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGestureRecognizer.swift; sourceTree = "<group>"; };
 		B25315D328CF558700BD40DC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B2A9A33228D36F400071A169 /* UserComponentStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserComponentStory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			children = (
 				352DB76728CA17D200A377E6 /* UserFeedView.swift */,
 				001D907B28CB693900DBF549 /* UserFeedController.swift */,
+				B2A9A33228D36F400071A169 /* UserComponentStory.swift */,
 			);
 			path = UserFeed;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2A9A33328D36F400071A169 /* UserComponentStory.swift in Sources */,
 				00B8377E28D0B345003F54B0 /* LandmarkAnnotation.swift in Sources */,
 				087A255A28D34762002E4D67 /* PhotoPickerCoordinator.swift in Sources */,
 				352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */,
