@@ -17,6 +17,13 @@ struct UserFeedView: View {
         return  config
     }
     
+    func callPhotoPicker(_ location: Location) {
+        print("Do SwiftUI: \(location.latitude) e \(location.longitude)")
+        isPresented.toggle()
+    }
+    
+    func startAnimation() {}
+    
     var body: some View {
 
         NavigationView{
@@ -24,8 +31,8 @@ struct UserFeedView: View {
                 MapView (
                     landmarks: controller.mockedLandmarks,
                     coordinator: controller.mapViewCoordinator,
-                    locationCoordinate: controller.userLocation?.center ?? .init()
-//                                    onTap: { _ in }
+                    locationCoordinate: controller.userLocation?.center ?? .init(),
+                    onLongPress: callPhotoPicker
                 )
                 
                 HStack {

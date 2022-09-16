@@ -19,6 +19,7 @@
 		352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76728CA17D200A377E6 /* UserFeedView.swift */; };
 		352DB76A28CA17D300A377E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76928CA17D300A377E6 /* Assets.xcassets */; };
 		352DB76D28CA17D300A377E6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */; };
+		358A5E2D28D4A4D6009D63F0 /* CustomGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358A5E2C28D4A4D6009D63F0 /* CustomGestureRecognizer.swift */; };
 		B25315D428CF558700BD40DC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25315D328CF558700BD40DC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		352DB76728CA17D200A377E6 /* UserFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedView.swift; sourceTree = "<group>"; };
 		352DB76928CA17D300A377E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		352DB76C28CA17D300A377E6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		358A5E2C28D4A4D6009D63F0 /* CustomGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGestureRecognizer.swift; sourceTree = "<group>"; };
 		B25315D328CF558700BD40DC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 				001D907728CB638700DBF549 /* MapView.swift */,
 				00B8377D28D0B345003F54B0 /* LandmarkAnnotation.swift */,
 				086CF5DA28D20B3600792479 /* ImagePicker.swift */,
+				358A5E2C28D4A4D6009D63F0 /* CustomGestureRecognizer.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				086CF5DB28D20B3600792479 /* ImagePicker.swift in Sources */,
 				00B8377C28D0B2D0003F54B0 /* MapViewCoordinator.swift in Sources */,
 				001D907828CB638700DBF549 /* MapView.swift in Sources */,
+				358A5E2D28D4A4D6009D63F0 /* CustomGestureRecognizer.swift in Sources */,
 				00B8377628D0B182003F54B0 /* UserStoryModel.swift in Sources */,
 				001D907C28CB693900DBF549 /* UserFeedController.swift in Sources */,
 				352DB76628CA17D200A377E6 /* SocialMapApp.swift in Sources */,

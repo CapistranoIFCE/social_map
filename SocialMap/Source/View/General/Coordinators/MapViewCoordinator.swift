@@ -27,26 +27,30 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     }
     
     
-//    @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer, callBack: () -> Void) {
     @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer) {
-        print(#function)
+        let gesture = gestureRecognizer as! CustomGestureRecognizer
         let uiView = gestureRecognizer.view as! MKMapView
         
-//        if gestureRecognizer.state != UIGestureRecognizer.State.ended {
+        if gestureRecognizer.state != UIGestureRecognizer.State.began {
+            // iniciarAnimação()
+            return
+        }
+        if gestureRecognizer.state != UIGestureRecognizer.State.ended {
             let touchLocation = gestureRecognizer.location(in: uiView)
             let locationCoordinate = uiView.convert(touchLocation, toCoordinateFrom: uiView)
             
-            print("Tapped at latitude: \(locationCoordinate.latitude), Longitude \(locationCoordinate.longitude) " )
-            
             let myPin = MKPointAnnotation()
             myPin.coordinate = locationCoordinate
-            
             myPin.title = "Tapped at latitude: \(locationCoordinate.latitude), Longitude \(locationCoordinate.longitude) "
             uiView.addAnnotation(myPin)
-//        }
-//
-//        if gestureRecognizer.state != UIGestureRecognizer.State.began {
-//            return
-//        }
+            
+            gesture.longPressCallback!(
+                Location(
+                    latitude: locationCoordinate.latitude,
+                    longitude: locationCoordinate.longitude
+                )
+            )
+        }
+
     }
 }

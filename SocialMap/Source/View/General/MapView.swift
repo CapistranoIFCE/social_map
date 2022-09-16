@@ -8,9 +8,9 @@ struct MapView: UIViewRepresentable {
     var landmarks: [LandmarkAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
+    let onLongPress: (_ location: Location) -> Void
     
     let mapView = MKMapView()
-    
     
     struct MyAnnotationItem: Identifiable {
         var coordinate: CLLocationCoordinate2D
@@ -30,8 +30,13 @@ struct MapView: UIViewRepresentable {
             animated: true
         )
         
-        let oLongTapGesture = UILongPressGestureRecognizer(target: coordinator, action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:)))
+        let oLongTapGesture = CustomGestureRecognizer (
+            target: coordinator,
+            action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
+        )
         
+        oLongTapGesture.minimumPressDuration = 0.5
+        oLongTapGesture.longPressCallback = onLongPress
         mapView.addGestureRecognizer(oLongTapGesture)
         
         return mapView
