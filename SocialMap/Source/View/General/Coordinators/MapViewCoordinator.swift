@@ -31,11 +31,13 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
         let gesture = gestureRecognizer as! CustomGestureRecognizer
         let uiView = gestureRecognizer.view as! MKMapView
         
-        if gestureRecognizer.state != UIGestureRecognizer.State.began {
-            // iniciarAnimação()
+        if gestureRecognizer.state == .began {
+            let touchLocation = gestureRecognizer.location(in: uiView)
+            gesture.oneClickCallback!(touchLocation)
             return
         }
-        if gestureRecognizer.state != UIGestureRecognizer.State.ended {
+        
+        if gestureRecognizer.state == UIGestureRecognizer.State.ended {
             let touchLocation = gestureRecognizer.location(in: uiView)
             let locationCoordinate = uiView.convert(touchLocation, toCoordinateFrom: uiView)
             

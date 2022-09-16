@@ -22,17 +22,20 @@ struct UserFeedView: View {
         isPresented.toggle()
     }
     
-    func startAnimation() {}
+    func startAnimation(_ point: CGPoint) {
+        print(" one click at \(point)")
+    }
     
     var body: some View {
-
         NavigationView{
             GeometryReader { (geometry) in
                 MapView (
                     landmarks: controller.mockedLandmarks,
                     coordinator: controller.mapViewCoordinator,
                     locationCoordinate: controller.userLocation?.center ?? .init(),
-                    onLongPress: callPhotoPicker
+                    onLongPress: callPhotoPicker,
+                    oneClickCallback: startAnimation
+                    
                 )
                 
                 HStack {

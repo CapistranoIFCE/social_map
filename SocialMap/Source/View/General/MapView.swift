@@ -9,6 +9,7 @@ struct MapView: UIViewRepresentable {
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
     let onLongPress: (_ location: Location) -> Void
+    let oneClickCallback: (_ point: CGPoint) -> Void
     
     let mapView = MKMapView()
     
@@ -35,8 +36,10 @@ struct MapView: UIViewRepresentable {
             action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
         )
         
-        oLongTapGesture.minimumPressDuration = 0.5
+        oLongTapGesture.minimumPressDuration = 0.0
         oLongTapGesture.longPressCallback = onLongPress
+        oLongTapGesture.oneClickCallback = oneClickCallback
+        
         mapView.addGestureRecognizer(oLongTapGesture)
         
         return mapView
