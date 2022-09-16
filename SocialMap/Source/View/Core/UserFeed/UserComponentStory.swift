@@ -17,7 +17,7 @@ struct UserComponentStory: View {
             Image(image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 84, height: 84)
+                .frame(width: 64, height: 64)
                 .clipShape(Capsule())
                 .shadow(color: .black, radius: 5, x: 0.8, y: 0.8)
             
