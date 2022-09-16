@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 import PhotosUI
 
+
 struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
     @State private var isPresented: Bool = false
@@ -16,13 +17,25 @@ struct UserFeedView: View {
         return  config
     }
     
+    func callPhotoPicker(_ location: Location) {
+        print("Do SwiftUI: \(location.latitude) e \(location.longitude)")
+        isPresented.toggle()
+    }
+    
+    func startAnimation(_ point: CGPoint) {
+        print(" one click at \(point)")
+    }
+    
     var body: some View {
         NavigationView{
             GeometryReader { (geometry) in
                 MapView (
                     landmarks: controller.mockedLandmarks,
                     coordinator: controller.mapViewCoordinator,
-                    locationCoordinate: controller.userLocation?.center ?? .init()
+                    locationCoordinate: controller.userLocation?.center ?? .init(),
+                    onLongPress: callPhotoPicker,
+                    oneClickCallback: startAnimation
+                    
                 )
                 
                 HStack {
@@ -69,6 +82,9 @@ struct UserFeedView: View {
                 controller.checkIfLocationServiceIsEnable()
             }
         }
+        
+        
+        
     }
 }
 struct UserFeedView_Previews: PreviewProvider {
