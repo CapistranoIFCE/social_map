@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 import PhotosUI
 
+
 struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
     @State private var isPresented: Bool = false
@@ -16,9 +17,27 @@ struct UserFeedView: View {
         return  config
     }
     
+    func callPhotoPicker(_ location: Location) {
+        print("Do SwiftUI: \(location.latitude) e \(location.longitude)")
+        isPresented.toggle()
+    }
+    
+    func startAnimation(_ point: CGPoint) {
+        print(" one click at \(point)")
+    }
+    
     var body: some View {
         NavigationView{
             GeometryReader { (geometry) in
+                MapView (
+                    landmarks: controller.mockedLandmarks,
+                    coordinator: controller.mapViewCoordinator,
+                    locationCoordinate: controller.userLocation?.center ?? .init(),
+                    onLongPress: callPhotoPicker,
+                    oneClickCallback: startAnimation
+                    
+                )
+                
                 VStack {
                     MapView (
                         landmarks: controller.mockedLandmarks,
@@ -28,6 +47,31 @@ struct UserFeedView: View {
 
                     VStack(alignment: .leading){
                         Text("Albuns de Davi")
+                            .font(.system(size: 24))
+                            .bold()
+                            .padding()
+                        HStack{
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                Spacer()
+                                HStack {
+                                    ForEach(UserStory.mocketStories) { story in
+                                        UserComponentStory(image: story.image, name: story.identifier)
+                                        .onTapGesture {
+                                            controller.userLocation?.center = CLLocationCoordinate2D (
+                                                latitude: story.location.latitude,
+                                                longitude: story.location.longitude
+                                                )
+                                        }
+                                    }
+
+                                }
+                            }
+                            .frame(height: geometry.size.height * 0.125)
+                        }
+                    }
+                }
+
+
                             .font(.system(size: 24))
                             .bold()
                             .padding()
@@ -100,6 +144,8 @@ struct UserFeedView: View {
                 controller.checkIfLocationServiceIsEnable()
             }
         }
+        
+        
         
     }
 }
