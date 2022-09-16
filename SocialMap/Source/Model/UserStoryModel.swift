@@ -25,7 +25,7 @@ extension UserStory {
     static var mocketStories = [
         UserStory(
             identifier: "Laughing",
-            image: "friends_laughing",
+            image: "",
             contentType: MediaType.image,
             location: Location(latitude: -3.74217, longitude: -38.53488)
         ),
