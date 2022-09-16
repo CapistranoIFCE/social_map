@@ -13,6 +13,8 @@
 		00B8377928D0B19D003F54B0 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377828D0B19D003F54B0 /* MediaTypeEnum.swift */; };
 		00B8377C28D0B2D0003F54B0 /* MapViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377B28D0B2D0003F54B0 /* MapViewCoordinator.swift */; };
 		00B8377E28D0B345003F54B0 /* LandmarkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377D28D0B345003F54B0 /* LandmarkAnnotation.swift */; };
+		00B8378028D1FDA8003F54B0 /* DeviceSideEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377F28D1FDA8003F54B0 /* DeviceSideEnum.swift */; };
+		00B8379028D23C7F003F54B0 /* UserFeedControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8378F28D23C7F003F54B0 /* UserFeedControllerTest.swift */; };
 		086CF5DB28D20B3600792479 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086CF5DA28D20B3600792479 /* ImagePicker.swift */; };
 		087A255A28D34762002E4D67 /* PhotoPickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A255928D34762002E4D67 /* PhotoPickerCoordinator.swift */; };
 		352DB76628CA17D200A377E6 /* SocialMapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76528CA17D200A377E6 /* SocialMapApp.swift */; };
@@ -22,6 +24,16 @@
 		B25315D428CF558700BD40DC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25315D328CF558700BD40DC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		00B8378928D23C2F003F54B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 352DB75A28CA17D200A377E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 352DB76128CA17D200A377E6;
+			remoteInfo = SocialMap;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		001D907728CB638700DBF549 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		001D907B28CB693900DBF549 /* UserFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedController.swift; sourceTree = "<group>"; };
@@ -29,6 +41,9 @@
 		00B8377828D0B19D003F54B0 /* MediaTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTypeEnum.swift; sourceTree = "<group>"; };
 		00B8377B28D0B2D0003F54B0 /* MapViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinator.swift; sourceTree = "<group>"; };
 		00B8377D28D0B345003F54B0 /* LandmarkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkAnnotation.swift; sourceTree = "<group>"; };
+		00B8377F28D1FDA8003F54B0 /* DeviceSideEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSideEnum.swift; sourceTree = "<group>"; };
+		00B8378528D23C2F003F54B0 /* SocialMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocialMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00B8378F28D23C7F003F54B0 /* UserFeedControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedControllerTest.swift; sourceTree = "<group>"; };
 		086CF5DA28D20B3600792479 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		087A255928D34762002E4D67 /* PhotoPickerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerCoordinator.swift; sourceTree = "<group>"; };
 		352DB76228CA17D200A377E6 /* SocialMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +55,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		00B8378228D23C2F003F54B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		352DB75F28CA17D200A377E6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				00B8377828D0B19D003F54B0 /* MediaTypeEnum.swift */,
+				00B8377F28D1FDA8003F54B0 /* DeviceSideEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -104,10 +127,27 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
+		00B8378628D23C2F003F54B0 /* SocialMapTests */ = {
+			isa = PBXGroup;
+			children = (
+				00B8378E28D23C59003F54B0 /* UserFeedController */,
+			);
+			path = SocialMapTests;
+			sourceTree = "<group>";
+		};
+		00B8378E28D23C59003F54B0 /* UserFeedController */ = {
+			isa = PBXGroup;
+			children = (
+				00B8378F28D23C7F003F54B0 /* UserFeedControllerTest.swift */,
+			);
+			path = UserFeedController;
+			sourceTree = "<group>";
+		};
 		352DB75928CA17D200A377E6 = {
 			isa = PBXGroup;
 			children = (
 				352DB76428CA17D200A377E6 /* SocialMap */,
+				00B8378628D23C2F003F54B0 /* SocialMapTests */,
 				352DB76328CA17D200A377E6 /* Products */,
 				B25315D228CF558700BD40DC /* Frameworks */,
 			);
@@ -117,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				352DB76228CA17D200A377E6 /* SocialMap.app */,
+				00B8378528D23C2F003F54B0 /* SocialMapTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +227,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		00B8378428D23C2F003F54B0 /* SocialMapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00B8378B28D23C2F003F54B0 /* Build configuration list for PBXNativeTarget "SocialMapTests" */;
+			buildPhases = (
+				00B8378128D23C2F003F54B0 /* Sources */,
+				00B8378228D23C2F003F54B0 /* Frameworks */,
+				00B8378328D23C2F003F54B0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00B8378A28D23C2F003F54B0 /* PBXTargetDependency */,
+			);
+			name = SocialMapTests;
+			productName = SocialMapTests;
+			productReference = 00B8378528D23C2F003F54B0 /* SocialMapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		352DB76128CA17D200A377E6 /* SocialMap */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 352DB77028CA17D300A377E6 /* Build configuration list for PBXNativeTarget "SocialMap" */;
@@ -213,6 +272,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					00B8378428D23C2F003F54B0 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 352DB76128CA17D200A377E6;
+					};
 					352DB76128CA17D200A377E6 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -232,11 +295,19 @@
 			projectRoot = "";
 			targets = (
 				352DB76128CA17D200A377E6 /* SocialMap */,
+				00B8378428D23C2F003F54B0 /* SocialMapTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		00B8378328D23C2F003F54B0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		352DB76028CA17D200A377E6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +320,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		00B8378128D23C2F003F54B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00B8379028D23C7F003F54B0 /* UserFeedControllerTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		352DB75E28CA17D200A377E6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,6 +336,7 @@
 				087A255A28D34762002E4D67 /* PhotoPickerCoordinator.swift in Sources */,
 				352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */,
 				00B8377928D0B19D003F54B0 /* MediaTypeEnum.swift in Sources */,
+				00B8378028D1FDA8003F54B0 /* DeviceSideEnum.swift in Sources */,
 				086CF5DB28D20B3600792479 /* ImagePicker.swift in Sources */,
 				00B8377C28D0B2D0003F54B0 /* MapViewCoordinator.swift in Sources */,
 				001D907828CB638700DBF549 /* MapView.swift in Sources */,
@@ -268,7 +348,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		00B8378A28D23C2F003F54B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 352DB76128CA17D200A377E6 /* SocialMap */;
+			targetProxy = 00B8378928D23C2F003F54B0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		00B8378C28D23C2F003F54B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 685GVH2XJC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = thiagohba.com.SocialMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SocialMap.app/SocialMap";
+			};
+			name = Debug;
+		};
+		00B8378D28D23C2F003F54B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 685GVH2XJC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = thiagohba.com.SocialMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SocialMap.app/SocialMap";
+			};
+			name = Release;
+		};
 		352DB76E28CA17D300A377E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -446,6 +570,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00B8378B28D23C2F003F54B0 /* Build configuration list for PBXNativeTarget "SocialMapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00B8378C28D23C2F003F54B0 /* Debug */,
+				00B8378D28D23C2F003F54B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		352DB75D28CA17D200A377E6 /* Build configuration list for PBXProject "SocialMap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -29,7 +29,7 @@ struct UserFeedView: View {
                     Rectangle()
                         .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
                         .onTapGesture(count: 2, perform: {
-                            controller.goToNextImage()
+                            controller.goToPreviousImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         } )
                         .onTapGesture {
@@ -42,7 +42,7 @@ struct UserFeedView: View {
                     Rectangle()
                         .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
                         .onTapGesture(count: 2, perform: {
-                            controller.goToPreviousImage()
+                            controller.goToNextImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         } )
                         .onTapGesture {
