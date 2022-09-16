@@ -11,13 +11,6 @@ struct MapView: UIViewRepresentable {
     let onLongPress: (_ location: Location) -> Void
     let oneClickCallback: (_ point: CGPoint) -> Void
     
-    let mapView = MKMapView()
-    
-    struct MyAnnotationItem: Identifiable {
-        var coordinate: CLLocationCoordinate2D
-        let id = UUID()
-    }
-    
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.setRegion(
@@ -36,7 +29,7 @@ struct MapView: UIViewRepresentable {
             action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
         )
         
-        oLongTapGesture.minimumPressDuration = 0.0
+        oLongTapGesture.minimumPressDuration = 0.5
         oLongTapGesture.longPressCallback = onLongPress
         oLongTapGesture.oneClickCallback = oneClickCallback
         
@@ -44,9 +37,6 @@ struct MapView: UIViewRepresentable {
         
         return mapView
     }
-    
-    func test() {}
-
     
     func configure(with map: MKMapView) {
         UIView.animate(withDuration: 1.0) {
@@ -56,9 +46,9 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        configure(with: mapView)
-        mapView.delegate = self.coordinator
-        mapView.addAnnotations(landmarks)
+        configure(with: uiView)
+        uiView.delegate = self.coordinator
+        uiView.addAnnotations(landmarks)
     }
     
 }
