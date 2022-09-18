@@ -5,26 +5,6 @@ import PhotosUI
 
 struct UserFeedView: View {
     @StateObject private var controller = UserFeedController()
-    @State private var isPresented: Bool = false
-    @State private var pickerResult: [UIImage] = []
-    
-    
-    var config: PHPickerConfiguration{
-        var config = PHPickerConfiguration(photoLibrary: .shared())
-        config.filter = .images
-        config.selectionLimit = 0
-        
-        return  config
-    }
-    
-    func callPhotoPicker(_ location: Location) {
-        print("Do SwiftUI: \(location.latitude) e \(location.longitude)")
-        isPresented.toggle()
-    }
-    
-    func startAnimation(_ point: CGPoint) {
-        print(" one click at \(point)")
-    }
     
     var body: some View {
         NavigationView{
@@ -34,8 +14,8 @@ struct UserFeedView: View {
                         landmarks: controller.mockedLandmarks,
                         coordinator: controller.mapViewCoordinator,
                         locationCoordinate: controller.userLocation?.center ?? .init(),
-                        onLongPress: callPhotoPicker,
-                        oneClickCallback: startAnimation
+                        onLongPress: controller.callPhotoPicker,
+                        oneClickCallback: controller.startAnimation
                     )
                     
                     VStack(alignment: .leading){
@@ -62,7 +42,15 @@ struct UserFeedView: View {
                             .frame(height: geometry.size.height * 0.125)
                         }
                     }
-                }                
+                }
+                
+                LottieView(
+                    lottieFile: "pulse",
+                    animationView: controller.animationView
+                )
+                .frame(width: 300, height: 300)
+                .position(controller.pulseOrigin)
+                .opacity(controller.onHold ? 1 : 0)
                 
                 HStack {
                     Rectangle()
@@ -92,13 +80,17 @@ struct UserFeedView: View {
                  .toolbar {
                     ToolbarItem {
                         Button(action: {
-                            isPresented.toggle()
+                            controller.isPresented.toggle()
                         }) {
                             Image(systemName: "photo.circle.fill").scaleEffect(x: 2, y: 2)
                                 .buttonStyle(.borderedProminent)
                                 .controlSize(.regular)
-                        }.sheet(isPresented: $isPresented) {
-                            PhotoPicker(configuration: self.config, pickerResult: $pickerResult, isPresented: $isPresented)
+                        }.sheet(isPresented: $controller.isPresented) {
+                            PhotoPicker(
+                                configuration: controller.config,
+                                pickerResult: $controller.pickerResult,
+                                isPresented: $controller.isPresented
+                            )
                         }
                         .frame(minWidth: CGFloat(UserStory.mocketStories.count) * (geometry.size.width / 4), alignment: .leading)
                     }

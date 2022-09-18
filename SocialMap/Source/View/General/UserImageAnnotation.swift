@@ -1,28 +1,31 @@
 import Foundation
 import MapKit
 
-class LandmarkAnnotation: NSObject, MKAnnotation {
+class UserImageAnnotation: NSObject, MKAnnotation {
     let title: String?
     let subtitle: String?
+    var image: UIImage!
     var coordinate: CLLocationCoordinate2D
     
     init(title: String?,
          subtitle: String?,
+         image: UIImage = UIImage(systemName: "photo")!,
          coordinate: CLLocationCoordinate2D) {
             self.title = title
             self.subtitle = subtitle
+            self.image = image
             self.coordinate = coordinate
         }
 }
 
-extension LandmarkAnnotation {
+extension UserImageAnnotation {
     
-    static func requestMockData() -> [LandmarkAnnotation] {
+    static func requestMockData() -> [UserImageAnnotation] {
         let mockedModelData = UserStory.mocketStories
-        var mockedLandMark = [LandmarkAnnotation]()
+        var mockedLandMark = [UserImageAnnotation]()
         for data in mockedModelData {
             mockedLandMark.append(
-                LandmarkAnnotation(
+                UserImageAnnotation(
                     title: data.identifier,
                     subtitle: "",
                     coordinate: CLLocationCoordinate2D(
@@ -32,6 +35,7 @@ extension LandmarkAnnotation {
                 )
             )
         }
+    
         return mockedLandMark
     }
     

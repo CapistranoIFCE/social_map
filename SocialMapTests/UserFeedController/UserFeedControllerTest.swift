@@ -12,25 +12,25 @@ import CoreMIDI
 
 class UserFeedControllerTest: XCTestCase {
     var mockController: UserFeedController!
-    var landmarks: [LandmarkAnnotation]!
-    var rigthSequentialLandmarks: [LandmarkAnnotation]!
-    var leftSequentialLandmarks: [LandmarkAnnotation]!
+    var landmarks: [UserImageAnnotation]!
+    var rigthSequentialLandmarks: [UserImageAnnotation]!
+    var leftSequentialLandmarks: [UserImageAnnotation]!
     
     override func setUp() {
         mockController = UserFeedController()
         
         rigthSequentialLandmarks = [
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut1",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.7971866074375087, longitude: -38.56979534530145)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut2",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.74217, longitude: -38.53488)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut3",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
@@ -38,17 +38,17 @@ class UserFeedControllerTest: XCTestCase {
         ]
         
         leftSequentialLandmarks = [
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut3",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut2",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.74217, longitude: -38.53488)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut1",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: -3.7971866074375087, longitude: -38.56979534530145)
@@ -56,17 +56,17 @@ class UserFeedControllerTest: XCTestCase {
         ]
         
         landmarks = [
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut4",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut5",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: 1.0, longitude: -1.0)
             ),
-            LandmarkAnnotation(
+            UserImageAnnotation(
                 title: "sut6",
                 subtitle: "",
                 coordinate: CLLocationCoordinate2D(latitude: 2.0, longitude: 1.0)
