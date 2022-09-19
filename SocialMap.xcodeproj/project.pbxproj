@@ -15,7 +15,6 @@
 		00B8377E28D0B345003F54B0 /* UserImageAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377D28D0B345003F54B0 /* UserImageAnnotation.swift */; };
 		00B8378028D1FDA8003F54B0 /* DeviceSideEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8377F28D1FDA8003F54B0 /* DeviceSideEnum.swift */; };
 		00B8379028D23C7F003F54B0 /* UserFeedControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8378F28D23C7F003F54B0 /* UserFeedControllerTest.swift */; };
-		00BDB83328D8AAEF00CB8DBB /* untitle in Resources */ = {isa = PBXBuildFile; fileRef = 00BDB83228D8AAEF00CB8DBB /* untitle */; };
 		00ECBD5828D6DAA400A546C9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 00ECBD5728D6DAA400A546C9 /* Lottie */; };
 		00ECBD5B28D6DAB400A546C9 /* pulse.json in Resources */ = {isa = PBXBuildFile; fileRef = 00ECBD5A28D6DAB400A546C9 /* pulse.json */; };
 		00ECBD5E28D6DAF500A546C9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ECBD5D28D6DAF500A546C9 /* LottieView.swift */; };
@@ -50,7 +49,6 @@
 		00B8377F28D1FDA8003F54B0 /* DeviceSideEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSideEnum.swift; sourceTree = "<group>"; };
 		00B8378528D23C2F003F54B0 /* SocialMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocialMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00B8378F28D23C7F003F54B0 /* UserFeedControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedControllerTest.swift; sourceTree = "<group>"; };
-		00BDB83228D8AAEF00CB8DBB /* untitle */ = {isa = PBXFileReference; lastKnownFileType = text; name = untitle; path = SocialMap/Resources/untitle; sourceTree = SOURCE_ROOT; };
 		00ECBD5A28D6DAB400A546C9 /* pulse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = pulse.json; path = ../../../../../../Downloads/pulse.json; sourceTree = "<group>"; };
 		00ECBD5D28D6DAF500A546C9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		086CF5DA28D20B3600792479 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				00ECBD5A28D6DAB400A546C9 /* pulse.json */,
-				00BDB83228D8AAEF00CB8DBB /* untitle */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -343,7 +340,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00BDB83328D8AAEF00CB8DBB /* untitle in Resources */,
 				352DB76D28CA17D300A377E6 /* Preview Assets.xcassets in Resources */,
 				00ECBD5B28D6DAB400A546C9 /* pulse.json in Resources */,
 				352DB76A28CA17D300A377E6 /* Assets.xcassets in Resources */,
