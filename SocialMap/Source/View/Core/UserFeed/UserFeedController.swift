@@ -2,16 +2,33 @@ import Foundation
 import CoreLocation
 import UIKit
 import MapKit
+import PhotosUI
+import Lottie
+import SwiftUI
 
 class UserFeedController: NSObject, ObservableObject {
-    
     @Published var userLocation: MKCoordinateRegion?
+    @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
+    @Published var isPresented: Bool = false
+    @Published var pickerResult: [UIImage] = []
+    @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
+    @Published var cancelTapped = false
+    @Published var onHold = false
     
-    var locationManager: CLLocationManager?
-    var currentLandmark: LandmarkAnnotation? = nil
+    var config: PHPickerConfiguration{
+        var config = PHPickerConfiguration(photoLibrary: .shared())
+        config.filter = .images
+        config.selectionLimit = 0
+        
+        return  config
+    }
+    
     let mapViewCoordinator = MapViewCoordinator()
-    let mockedLandmarks = LandmarkAnnotation.requestMockData()
-    
+    let animationView = AnimationView()
+    var locationManager: CLLocationManager?
+    var currentLandmark: UserImageAnnotation? = nil
+    var shouldCallPhotoPicker = false
+    var holdTime = 0
     
     func goToNextImage() {
         if userLocation != nil {
@@ -37,10 +54,55 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
-    func findNearLandmark(on side: DeviceSide, in landmarks: [LandmarkAnnotation], by startLocation: CLLocationCoordinate2D) -> LandmarkAnnotation? {
+    func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
+        if shouldCallPhotoPicker {
+            self.addPlaceholderPin (
+                on: mapView, in: CLLocationCoordinate2D (
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                )
+            )
+            self.isPresented.toggle()
+        }
+        self.holdTime = 0
+        self.onHold.toggle()
+        self.shouldCallPhotoPicker = false
+    }
+    
+    func startAnimation(_ point: CGPoint, _ mapView: MKMapView) {
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+        withAnimation(.spring().speed(0.05)) { self.onHold.toggle() }
+        self.pulseOrigin = point
+        self.startTimer()
+    }
+    
+    private func addPlaceholderPin(on mapView: MKMapView, in location: CLLocationCoordinate2D) {
+        let placeHolder = UserImageAnnotation(
+            title: "",
+            subtitle: "",
+            coordinate: location
+        )
+        mockedLandmarks.append(placeHolder)
+        mapView.addAnnotation(placeHolder)
+    }
+    
+    private func startTimer() {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if self.onHold {
+                self.holdTime += 1
+                if self.holdTime == 3 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
+                if self.holdTime >= 3 { self.shouldCallPhotoPicker = true }
+                return
+            }
+            self.holdTime = 0
+            timer.invalidate()
+        }
+    }
+    
+    func findNearLandmark(on side: DeviceSide, in landmarks: [UserImageAnnotation], by startLocation: CLLocationCoordinate2D) -> UserImageAnnotation? {
         
-        func findNearLandmarkRight() -> LandmarkAnnotation? {
-            var rigthLandmarks = [LandmarkAnnotation]()
+        func findNearLandmarkRight() -> UserImageAnnotation? {
+            var rigthLandmarks = [UserImageAnnotation]()
             
             for landmark in landmarks {
                 if landmark.coordinate.longitude > startLocation.longitude {
@@ -53,8 +115,8 @@ class UserFeedController: NSObject, ObservableObject {
             return rigthLandmarks.first
         }
         
-        func findNearLandmarkLeft() -> LandmarkAnnotation? {
-            var leftLandmarks = [LandmarkAnnotation]()
+        func findNearLandmarkLeft() -> UserImageAnnotation? {
+            var leftLandmarks = [UserImageAnnotation]()
             
             for landmark in landmarks {
                 if landmark.coordinate.longitude < startLocation.longitude {

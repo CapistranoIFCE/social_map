@@ -5,8 +5,8 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
     private let parent: PhotoPicker
     
     init(_ parent: PhotoPicker) {
-    self.parent = parent
-}
+        self.parent = parent
+    }
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         for image in results {
@@ -16,7 +16,9 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
                         print(error.localizedDescription)
                     }
                     else {
-                        self.parent.pickerResult.append(newImage as! UIImage)
+                        DispatchQueue.main.async {
+                            self.parent.pickerResult.append(newImage as! UIImage)
+                        }
                     }
                 }
             } else {

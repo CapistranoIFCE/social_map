@@ -5,50 +5,53 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
-    var landmarks: [LandmarkAnnotation]
+    var landmarks: [UserImageAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
-    let onLongPress: (_ location: Location) -> Void
-    let oneClickCallback: (_ point: CGPoint) -> Void
+    let onLongPress: (_ location: Location, _ mapView: MKMapView) -> Void
+    let oneClickCallback: (_ point: CGPoint, _ mapView: MKMapView) -> Void
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
+        let gesture = configureGesture()
+        
+        mapView.delegate = self.coordinator
+        mapView.addGestureRecognizer(gesture)
+        
         mapView.setRegion(
             MKCoordinateRegion(
                 center: locationCoordinate,
-                span: MKCoordinateSpan (
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01
-                )
-            ),
+                span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)),
             animated: true
         )
-        
-        let oLongTapGesture = CustomGestureRecognizer (
-            target: coordinator,
-            action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
-        )
-        
-        oLongTapGesture.minimumPressDuration = 0.5
-        oLongTapGesture.longPressCallback = onLongPress
-        oLongTapGesture.oneClickCallback = oneClickCallback
-        
-        mapView.addGestureRecognizer(oLongTapGesture)
         
         return mapView
     }
     
-    func configure(with map: MKMapView) {
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        configure(with: uiView)
+        
+        uiView.addAnnotations(landmarks)
+    }
+    
+    private func configureGesture() -> CustomGestureRecognizer {
+        let onLongTapGesture = CustomGestureRecognizer (
+            target: coordinator,
+            action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
+        )
+        
+        onLongTapGesture.minimumPressDuration = 0.5
+        onLongTapGesture.longPressCallback = onLongPress
+        onLongTapGesture.oneClickCallback = oneClickCallback
+        
+        return onLongTapGesture
+    }
+    
+    private func configure(with map: MKMapView) {
         UIView.animate(withDuration: 1.0) {
             map.setCenter(locationCoordinate, animated: true)
         }
         map.showsUserLocation = true
     }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        configure(with: uiView)
-        uiView.delegate = self.coordinator
-        uiView.addAnnotations(landmarks)
-    }
-    
+
 }

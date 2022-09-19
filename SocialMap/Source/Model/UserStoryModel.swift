@@ -3,7 +3,7 @@ import Foundation
 struct UserStory: Codable, Identifiable {
     var id = UUID()
     let identifier: String
-    let image: String
+    let image: String 
     let contentType: MediaType
     let location: Location
 
