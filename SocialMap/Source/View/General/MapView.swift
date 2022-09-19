@@ -8,8 +8,8 @@ struct MapView: UIViewRepresentable {
     var landmarks: [UserImageAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
-    let onLongPress: (_ location: Location) -> Void
-    let oneClickCallback: (_ point: CGPoint) -> Void
+    let onLongPress: (_ location: Location, _ mapView: MKMapView) -> Void
+    let oneClickCallback: (_ point: CGPoint, _ mapView: MKMapView) -> Void
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()

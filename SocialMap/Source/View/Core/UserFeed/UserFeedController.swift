@@ -12,6 +12,7 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var isPresented: Bool = false
     @Published var pickerResult: [UIImage] = []
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
+    @Published var cancelTapped = false
     @Published var onHold = false
     
     var config: PHPickerConfiguration{
@@ -53,18 +54,36 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
-    func callPhotoPicker(_ location: Location) {
-        if shouldCallPhotoPicker { self.isPresented.toggle() }
+    func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
+        if shouldCallPhotoPicker {
+            self.addPlaceholderPin (
+                on: mapView, in: CLLocationCoordinate2D (
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                )
+            )
+            self.isPresented.toggle()
+        }
         self.holdTime = 0
         self.onHold.toggle()
         self.shouldCallPhotoPicker = false
     }
     
-    func startAnimation(_ point: CGPoint) {
+    func startAnimation(_ point: CGPoint, _ mapView: MKMapView) {
         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
         withAnimation(.spring().speed(0.05)) { self.onHold.toggle() }
         self.pulseOrigin = point
         self.startTimer()
+    }
+    
+    private func addPlaceholderPin(on mapView: MKMapView, in location: CLLocationCoordinate2D) {
+        let placeHolder = UserImageAnnotation(
+            title: "",
+            subtitle: "",
+            coordinate: location
+        )
+        mockedLandmarks.append(placeHolder)
+        mapView.addAnnotation(placeHolder)
     }
     
     private func startTimer() {

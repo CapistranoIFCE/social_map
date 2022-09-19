@@ -89,7 +89,8 @@ struct UserFeedView: View {
                             PhotoPicker(
                                 configuration: controller.config,
                                 pickerResult: $controller.pickerResult,
-                                isPresented: $controller.isPresented
+                                isPresented: $controller.isPresented,
+                                cancelTapped: $controller.cancelTapped
                             )
                         }
                         .frame(minWidth: CGFloat(UserStory.mocketStories.count) * (geometry.size.width / 4), alignment: .leading)

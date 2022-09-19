@@ -7,13 +7,16 @@ struct PhotoPicker: UIViewControllerRepresentable {
     let configuration: PHPickerConfiguration
     @Binding var pickerResult: [UIImage]
     @Binding var isPresented: Bool
+    @Binding var cancelTapped: Bool
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
         return controller
     }
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+
+    }
     
     func makeCoordinator() -> PhotoPickerCoordinator {
         PhotoPickerCoordinator(self)

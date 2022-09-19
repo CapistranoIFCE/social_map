@@ -28,6 +28,7 @@ extension UserImageAnnotation {
                 UserImageAnnotation(
                     title: data.identifier,
                     subtitle: "",
+                    image: UIImage(systemName: "photo")!,
                     coordinate: CLLocationCoordinate2D(
                         latitude: data.location.latitude,
                         longitude: data.location.longitude
