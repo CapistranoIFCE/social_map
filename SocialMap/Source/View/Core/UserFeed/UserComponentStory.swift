@@ -1,10 +1,3 @@
-//
-//  UserComponentStory.swift
-//  SocialMap
-//
-//  Created by Raina Rodrigues de Lima on 15/09/22.
-//
-
 import Foundation
 import SwiftUI
 
@@ -17,9 +10,8 @@ struct UserComponentStory: View {
             Image(image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 64, height: 64)
+                .frame(width: 50, height: 50)
                 .clipShape(Capsule())
-                .shadow(color: .black, radius: 5, x: 0.8, y: 0.8)
             
             Text(name)
                 .font(.caption)

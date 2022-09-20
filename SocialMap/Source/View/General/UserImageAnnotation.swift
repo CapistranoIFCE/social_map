@@ -23,12 +23,13 @@ extension UserImageAnnotation {
     static func requestMockData() -> [UserImageAnnotation] {
         let mockedModelData = UserStory.mocketStories
         var mockedLandMark = [UserImageAnnotation]()
+        
         for data in mockedModelData {
             mockedLandMark.append(
                 UserImageAnnotation(
                     title: data.identifier,
                     subtitle: "",
-                    image: UIImage(systemName: "photo")!,
+                    image: UIImage (named: data.image) ?? UIImage (systemName: "photo")! ,
                     coordinate: CLLocationCoordinate2D(
                         latitude: data.location.latitude,
                         longitude: data.location.longitude

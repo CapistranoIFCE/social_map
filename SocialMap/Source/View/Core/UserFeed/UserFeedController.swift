@@ -156,8 +156,9 @@ class UserFeedController: NSObject, ObservableObject {
             // TODO Avaliar Case
             break
         case .authorizedAlways, .authorizedWhenInUse:
+            guard let location = locationManager.location else { return }
             userLocation = MKCoordinateRegion(
-                center: locationManager.location!.coordinate,
+                center: location.coordinate,
                 span: MKCoordinateSpan(
                     latitudeDelta: 0.05,
                     longitudeDelta: 0.05
@@ -175,3 +176,4 @@ extension UserFeedController: CLLocationManagerDelegate {
         self.checkLocationAuthorization()
     }
 }
+

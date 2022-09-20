@@ -20,7 +20,7 @@ struct UserFeedView: View {
                     
                     VStack(alignment: .leading){
                         Text("Albuns de Davi")
-                            .font(.system(size: 24))
+                            .font(.system(size: 20))
                             .bold()
                             .padding()
                         HStack{
@@ -39,7 +39,7 @@ struct UserFeedView: View {
                                     
                                 }
                             }
-                            .frame(height: geometry.size.height * 0.125)
+                            .frame(height: geometry.size.height * 0.070)
                         }
                     }
                 }

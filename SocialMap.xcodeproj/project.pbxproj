@@ -20,6 +20,7 @@
 		00ECBD5E28D6DAF500A546C9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ECBD5D28D6DAF500A546C9 /* LottieView.swift */; };
 		086CF5DB28D20B3600792479 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086CF5DA28D20B3600792479 /* ImagePicker.swift */; };
 		087A255A28D34762002E4D67 /* PhotoPickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A255928D34762002E4D67 /* PhotoPickerCoordinator.swift */; };
+		08F2D20228D9F79A0064CBB1 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F2D20128D9F79A0064CBB1 /* UIImageExtension.swift */; };
 		352DB76628CA17D200A377E6 /* SocialMapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76528CA17D200A377E6 /* SocialMapApp.swift */; };
 		352DB76828CA17D200A377E6 /* UserFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352DB76728CA17D200A377E6 /* UserFeedView.swift */; };
 		352DB76A28CA17D300A377E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 352DB76928CA17D300A377E6 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		00ECBD5D28D6DAF500A546C9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		086CF5DA28D20B3600792479 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		087A255928D34762002E4D67 /* PhotoPickerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerCoordinator.swift; sourceTree = "<group>"; };
+		08F2D20128D9F79A0064CBB1 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		352DB76228CA17D200A377E6 /* SocialMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		352DB76528CA17D200A377E6 /* SocialMapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMapApp.swift; sourceTree = "<group>"; };
 		352DB76728CA17D200A377E6 /* UserFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,14 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		08F2D20028D9F7770064CBB1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				08F2D20128D9F79A0064CBB1 /* UIImageExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		352DB75928CA17D200A377E6 = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +232,7 @@
 		352DB77628CA181500A377E6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				08F2D20028D9F7770064CBB1 /* Extension */,
 				00B8377728D0B194003F54B0 /* Enum */,
 				00B8377428D0B172003F54B0 /* Model */,
 				352DB77728CA181A00A377E6 /* View */,
@@ -369,6 +380,7 @@
 				00B8378028D1FDA8003F54B0 /* DeviceSideEnum.swift in Sources */,
 				086CF5DB28D20B3600792479 /* ImagePicker.swift in Sources */,
 				00B8377C28D0B2D0003F54B0 /* MapViewCoordinator.swift in Sources */,
+				08F2D20228D9F79A0064CBB1 /* UIImageExtension.swift in Sources */,
 				001D907828CB638700DBF549 /* MapView.swift in Sources */,
 				358A5E2D28D4A4D6009D63F0 /* CustomGestureRecognizer.swift in Sources */,
 				00B8377628D0B182003F54B0 /* UserStoryModel.swift in Sources */,
