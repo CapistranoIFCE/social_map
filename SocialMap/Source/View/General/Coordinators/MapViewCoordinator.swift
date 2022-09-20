@@ -15,7 +15,10 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             
             
             annotationView.frame.size = annotationFrame
-            annotationView.image = annotation.image.resizeImageTo(size: CGSize(width: 60, height: 60))
+            annotationView.image = annotation.image.resizeImageTo(
+                                        size: CGSize(width: 84, height: 64)
+                                    )
+            annotationView.layer.cornerRadius = 20
             annotationView.contentMode = .scaleToFill
             annotationView.canShowCallout = true
             

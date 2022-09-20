@@ -9,7 +9,7 @@ class UserImageAnnotation: NSObject, MKAnnotation {
     
     init(title: String?,
          subtitle: String?,
-         image: UIImage = UIImage(systemName: "photo")!,
+         image: UIImage = UIImage(systemName: "photo.on.rectangle")!,
          coordinate: CLLocationCoordinate2D) {
             self.title = title
             self.subtitle = subtitle

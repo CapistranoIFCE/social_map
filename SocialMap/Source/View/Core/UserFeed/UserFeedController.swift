@@ -12,7 +12,6 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var isPresented: Bool = false
     @Published var pickerResult: [UIImage] = []
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
-    @Published var cancelTapped = false
     @Published var onHold = false
     
     var config: PHPickerConfiguration{
@@ -80,6 +79,7 @@ class UserFeedController: NSObject, ObservableObject {
         let placeHolder = UserImageAnnotation(
             title: "",
             subtitle: "",
+            image: pickerResult.first ?? UIImage(systemName: "photo.on.rectangle")!,
             coordinate: location
         )
         mockedLandmarks.append(placeHolder)
