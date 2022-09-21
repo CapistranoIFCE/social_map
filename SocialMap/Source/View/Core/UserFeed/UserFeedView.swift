@@ -97,7 +97,7 @@ struct UserFeedView: View {
                     }
                 }
             }
-            .edgesIgnoringSafeArea(.top)
+            //.edgesIgnoringSafeArea(.top)
             .onAppear {
                 controller.checkIfLocationServiceIsEnable()
             }

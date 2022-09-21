@@ -4,7 +4,7 @@ import SwiftUI
 struct SocialMapApp: App {
     var body: some Scene {
         WindowGroup {
-            UserFeedView()
+            SheetView()
         }
     }
 }
