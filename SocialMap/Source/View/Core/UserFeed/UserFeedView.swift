@@ -55,7 +55,11 @@ struct UserFeedView: View {
                 
                 HStack {
                     Rectangle()
-                        .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
+                        .frame (
+                            width: geometry.size.width * 0.1,
+                            height: geometry.size.height -
+                            geometry.size.height * 0.070
+                        )
                         .onTapGesture(count: 2, perform: {
                             controller.goToPreviousImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -68,11 +72,15 @@ struct UserFeedView: View {
                     Spacer()
                     
                     Rectangle()
-                        .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
+                        .frame (
+                            width: geometry.size.width * 0.1,
+                            height: geometry.size.height -
+                            geometry.size.height * 0.070
+                        )
                         .onTapGesture(count: 2, perform: {
                             controller.goToNextImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        } )
+                        })
                         .onTapGesture {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         }
@@ -85,7 +93,6 @@ struct UserFeedView: View {
                                 isPresented: $controller.isPresented
                             )
                         }
-                        .frame(minWidth: CGFloat(UserStory.mocketStories.count) * (geometry.size.width / 4), alignment: .leading)
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
