@@ -23,6 +23,7 @@ struct UserFeedView: View {
                             .font(.system(size: 20))
                             .bold()
                             .padding()
+                        
                         HStack{
                             ScrollView(.horizontal, showsIndicators: false) {
                                 Spacer()
@@ -52,6 +53,7 @@ struct UserFeedView: View {
                 .position(controller.pulseOrigin)
                 .opacity(controller.onHold ? 1 : 0)
                 
+                
                 HStack {
                     Rectangle()
                         .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
@@ -77,24 +79,14 @@ struct UserFeedView: View {
                         }
                         .foregroundColor(.blue.opacity(0.00001))
                 }
-                 .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            controller.isPresented.toggle()
-                        }) {
-                            Image(systemName: "photo.circle.fill").scaleEffect(x: 2, y: 2)
-                                .buttonStyle(.borderedProminent)
-                                .controlSize(.regular)
-                        }.sheet(isPresented: $controller.isPresented) {
+                .sheet(isPresented: $controller.isPresented) {
                             PhotoPicker(
                                 configuration: controller.config,
-                                pickerResult: $controller.pickerResult,
+                                photoPickerDismissCallBack: controller.photoPickerHasBeingDismiss,
                                 isPresented: $controller.isPresented
                             )
                         }
                         .frame(minWidth: CGFloat(UserStory.mocketStories.count) * (geometry.size.width / 4), alignment: .leading)
-                    }
-                }
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {

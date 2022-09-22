@@ -2,6 +2,7 @@ import Foundation
 import PhotosUI
 
 class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
+    
     private let parent: PhotoPicker
     
     init(_ parent: PhotoPicker) {
@@ -9,22 +10,26 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
     }
 
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        for image in results {
-            if image.itemProvider.canLoadObject(ofClass: UIImage.self){
-                image.itemProvider.loadObject(ofClass: UIImage.self){ newImage, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                    else {
-                        DispatchQueue.main.async {
-                            self.parent.pickerResult.append(newImage as! UIImage)
-                        }
-                    }
+        Task {
+            var imageResults = [UIImage]()
+            for image in results {
+                let provider = image.itemProvider
+                
+                guard let url = try await provider.loadItem(forTypeIdentifier: "public ima") as? URL else {
+                    return
                 }
-            } else {
-                print("Selected asset is not an image")
+                
+                let data = try Data(contentsOf: url)
+                print(data)
+                if let image = UIImage(data: data) {
+                    imageResults.append(image)
+                }
             }
+            print(imageResults.count)
+            parent.photoPickerDismissCallBack(imageResults)
         }
         parent.isPresented = false
     }
+    
+    
 }

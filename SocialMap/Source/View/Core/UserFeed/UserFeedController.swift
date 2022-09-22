@@ -10,7 +10,6 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var userLocation: MKCoordinateRegion?
     @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
     @Published var isPresented: Bool = false
-    @Published var pickerResult: [UIImage] = []
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
     
@@ -25,6 +24,7 @@ class UserFeedController: NSObject, ObservableObject {
     let mapViewCoordinator = MapViewCoordinator()
     let animationView = AnimationView()
     var locationManager: CLLocationManager?
+    var photoAutorizationStatus: PHAuthorizationStatus?
     var currentLandmark: UserImageAnnotation? = nil
     var shouldCallPhotoPicker = false
     var holdTime = 0
@@ -53,15 +53,43 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
+    func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
+        guard let placeholderPin = mockedLandmarks.last else { return }
+        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        let placeholderCoordinate = placeholderPin.coordinate
+        
+        self.removePlaceholderPin(on: mapViewInstance, placeholderPin: placeholderPin)
+
+        DispatchQueue.main.async {
+                    
+            if !pickedImages.isEmpty {
+                let newAnnotation = UserImageAnnotation(
+                    title: "",
+                    subtitle: "",
+                    image: pickedImages.last!,
+                    coordinate: placeholderCoordinate
+                )
+                
+                self.mockedLandmarks.append(newAnnotation)
+                mapViewInstance.addAnnotation (newAnnotation)
+            }
+        }
+        
+        
+    }
+    
     func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
         if shouldCallPhotoPicker {
-            self.addPlaceholderPin (
-                on: mapView, in: CLLocationCoordinate2D (
-                    latitude: location.latitude,
-                    longitude: location.longitude
+            self.checkPermission()
+            if photoAutorizationStatus == .authorized {
+                self.addPlaceholderPin (
+                    on: mapView, in: CLLocationCoordinate2D (
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                    )
                 )
-            )
-            self.isPresented.toggle()
+                self.isPresented.toggle()
+            }
         }
         self.holdTime = 0
         self.onHold.toggle()
@@ -79,19 +107,24 @@ class UserFeedController: NSObject, ObservableObject {
         let placeHolder = UserImageAnnotation(
             title: "",
             subtitle: "",
-            image: pickerResult.first ?? UIImage(systemName: "photo.on.rectangle")!,
             coordinate: location
         )
         mockedLandmarks.append(placeHolder)
         mapView.addAnnotation(placeHolder)
     }
     
+    
+    private func removePlaceholderPin(on mapView: MKMapView, placeholderPin: UserImageAnnotation) {
+        mapView.removeAnnotation(placeholderPin)
+        self.mockedLandmarks.removeLast()
+    }
+    
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if self.onHold {
                 self.holdTime += 1
-                if self.holdTime == 3 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
-                if self.holdTime >= 3 { self.shouldCallPhotoPicker = true }
+                if self.holdTime == 1 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
+                if self.holdTime >= 1 { self.shouldCallPhotoPicker = true }
                 return
             }
             self.holdTime = 0
@@ -165,6 +198,32 @@ class UserFeedController: NSObject, ObservableObject {
                 )
             )
             break
+        @unknown default:
+            break
+        }
+    }
+    
+    func checkPermission() {
+        self.photoAutorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch self.photoAutorizationStatus {
+            case .authorized:
+                print("Access is granted by user")
+            case .notDetermined:
+                PHPhotoLibrary.requestAuthorization({
+                    (newStatus) in
+                    if newStatus ==  PHAuthorizationStatus.authorized {
+                        self.photoAutorizationStatus = newStatus
+                    }
+                })
+                print("It is not determined until now")
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .limited:
+                break
+            case .none:
+                break
         @unknown default:
             break
         }
