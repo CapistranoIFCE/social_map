@@ -1,7 +1,8 @@
 import Foundation
 import MapKit
 
-class UserImageAnnotation: NSObject, MKAnnotation {
+class UserImageAnnotation: NSObject, MKAnnotation, Identifiable {
+    let id = UUID()
     let title: String?
     let subtitle: String?
     var image: UIImage!

@@ -28,13 +28,12 @@ struct UserFeedView: View {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 Spacer()
                                 HStack {
-                                    ForEach(UserStory.mocketStories) { story in
-                                        UserComponentStory(image: story.image, name: story.identifier)
+                                    ForEach(controller.mockedLandmarks) { story in
+                                        UserComponentStory (
+                                            image: story.image,
+                                            name: story.title ?? "Untitle")
                                             .onTapGesture {
-                                                controller.userLocation?.center = CLLocationCoordinate2D (
-                                                    latitude: story.location.latitude,
-                                                    longitude: story.location.longitude
-                                                )
+                                                controller.userLocation?.center = story.coordinate
                                             }
                                     }
                                     

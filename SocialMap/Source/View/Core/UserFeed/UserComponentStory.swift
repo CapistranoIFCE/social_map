@@ -2,12 +2,12 @@ import Foundation
 import SwiftUI
 
 struct UserComponentStory: View {
-    let image: String
+    let image: UIImage
     let name: String
     
     var body: some View {
         VStack {
-            Image(image)
+            Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 50, height: 50)

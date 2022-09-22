@@ -68,7 +68,11 @@ class UserFeedController: NSObject, ObservableObject {
                     coordinate: placeholderCoordinate
                 )
                 
-                self.mockedLandmarks.append(newAnnotation)
+                withAnimation(.spring()) {
+                    self.mockedLandmarks.insert(newAnnotation, at: 0)
+                }
+                
+                self.userLocation?.center = newAnnotation.coordinate
                 mapViewInstance.addAnnotation (newAnnotation)
             }
         }
