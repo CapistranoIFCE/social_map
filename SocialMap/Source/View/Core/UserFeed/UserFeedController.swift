@@ -24,7 +24,6 @@ class UserFeedController: NSObject, ObservableObject {
     let mapViewCoordinator = MapViewCoordinator()
     let animationView = AnimationView()
     var locationManager: CLLocationManager?
-    var photoAutorizationStatus: PHAuthorizationStatus?
     var currentLandmark: UserImageAnnotation? = nil
     var shouldCallPhotoPicker = false
     var holdTime = 0
@@ -57,10 +56,9 @@ class UserFeedController: NSObject, ObservableObject {
         guard let placeholderPin = mockedLandmarks.last else { return }
         guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
         let placeholderCoordinate = placeholderPin.coordinate
-        
-        self.removePlaceholderPin(on: mapViewInstance, placeholderPin: placeholderPin)
 
         DispatchQueue.main.async {
+            self.removePlaceholderPin(on: mapViewInstance, placeholderPin: placeholderPin)
                     
             if !pickedImages.isEmpty {
                 let newAnnotation = UserImageAnnotation(
@@ -80,15 +78,18 @@ class UserFeedController: NSObject, ObservableObject {
     
     func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
         if shouldCallPhotoPicker {
-            self.checkPermission()
-            if photoAutorizationStatus == .authorized {
-                self.addPlaceholderPin (
-                    on: mapView, in: CLLocationCoordinate2D (
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    )
-                )
-                self.isPresented.toggle()
+            self.checkPermission { status in
+                if status == .authorized {
+                    DispatchQueue.main.async {
+                        self.addPlaceholderPin (
+                            on: mapView, in: CLLocationCoordinate2D (
+                                latitude: location.latitude,
+                                longitude: location.longitude
+                            )
+                        )
+                        self.isPresented.toggle()
+                    }
+                }
             }
         }
         self.holdTime = 0
@@ -203,26 +204,27 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
-    func checkPermission() {
-        self.photoAutorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch self.photoAutorizationStatus {
+    func checkPermission(completionHandler: @escaping (PHAuthorizationStatus) -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
             case .authorized:
+                completionHandler(.authorized)
                 print("Access is granted by user")
             case .notDetermined:
                 PHPhotoLibrary.requestAuthorization({
                     (newStatus) in
-                    if newStatus ==  PHAuthorizationStatus.authorized {
-                        self.photoAutorizationStatus = newStatus
-                    }
+                        completionHandler(newStatus)
                 })
                 print("It is not determined until now")
             case .restricted:
+                completionHandler(.restricted)
                 break
             case .denied:
+                completionHandler(.denied)
                 break
             case .limited:
-                break
-            case .none:
+                completionHandler(.limited)
                 break
         @unknown default:
             break

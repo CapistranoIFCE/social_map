@@ -8,28 +8,29 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
     init(_ parent: PhotoPicker) {
         self.parent = parent
     }
-
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         Task {
-            var imageResults = [UIImage]()
+            var resultImages = [UIImage]()
             for image in results {
-                let provider = image.itemProvider
-                
-                guard let url = try await provider.loadItem(forTypeIdentifier: "public ima") as? URL else {
-                    return
-                }
-                
-                let data = try Data(contentsOf: url)
-                print(data)
-                if let image = UIImage(data: data) {
-                    imageResults.append(image)
+                if image.itemProvider.canLoadObject(ofClass: UIImage.self){
+                    image.itemProvider.loadObject(ofClass: UIImage.self){ newImage, error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                        else {
+                            resultImages.append( newImage as! UIImage)
+                            if resultImages.count == results.count {
+                                    self.parent.photoPickerDismissCallBack(resultImages)
+                                }
+                            
+                        }
+                    }
+                } else {
+                    print("Selected asset is not an image")
                 }
             }
-            print(imageResults.count)
-            parent.photoPickerDismissCallBack(imageResults)
         }
         parent.isPresented = false
     }
-    
-    
 }
