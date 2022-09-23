@@ -17,6 +17,7 @@ struct MapView: UIViewRepresentable {
         
         mapView.delegate = self.coordinator
         mapView.addGestureRecognizer(gesture)
+        self.coordinator.mapViewInstance = mapView
         
         mapView.setRegion(
             MKCoordinateRegion(

@@ -1,7 +1,8 @@
 import Foundation
 import MapKit
 
-class UserImageAnnotation: NSObject, MKAnnotation {
+class UserImageAnnotation: NSObject, MKAnnotation, Identifiable {
+    let id = UUID()
     let title: String?
     let subtitle: String?
     var image: UIImage!
@@ -9,7 +10,7 @@ class UserImageAnnotation: NSObject, MKAnnotation {
     
     init(title: String?,
          subtitle: String?,
-         image: UIImage = UIImage(systemName: "photo")!,
+         image: UIImage = UIImage(systemName: "photo.on.rectangle")!,
          coordinate: CLLocationCoordinate2D) {
             self.title = title
             self.subtitle = subtitle
@@ -23,12 +24,13 @@ extension UserImageAnnotation {
     static func requestMockData() -> [UserImageAnnotation] {
         let mockedModelData = UserStory.mocketStories
         var mockedLandMark = [UserImageAnnotation]()
+        
         for data in mockedModelData {
             mockedLandMark.append(
                 UserImageAnnotation(
                     title: data.identifier,
                     subtitle: "",
-                    image: UIImage(systemName: "photo")!,
+                    image: UIImage (named: data.image) ?? UIImage (systemName: "photo")! ,
                     coordinate: CLLocationCoordinate2D(
                         latitude: data.location.latitude,
                         longitude: data.location.longitude

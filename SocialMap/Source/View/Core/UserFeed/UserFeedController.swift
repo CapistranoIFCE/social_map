@@ -10,9 +10,7 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var userLocation: MKCoordinateRegion?
     @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
     @Published var isPresented: Bool = false
-    @Published var pickerResult: [UIImage] = []
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
-    @Published var cancelTapped = false
     @Published var onHold = false
     
     var config: PHPickerConfiguration{
@@ -54,15 +52,49 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
+    func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
+        guard let placeholderPin = mockedLandmarks.last else { return }
+        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        let placeholderCoordinate = placeholderPin.coordinate
+
+        DispatchQueue.main.async {
+            self.removePlaceholderPin(on: mapViewInstance, placeholderPin: placeholderPin)
+                    
+            if !pickedImages.isEmpty {
+                let newAnnotation = UserImageAnnotation(
+                    title: "Untitle",
+                    subtitle: "",
+                    image: pickedImages.last!,
+                    coordinate: placeholderCoordinate
+                )
+                
+                withAnimation(.spring()) {
+                    self.mockedLandmarks.insert(newAnnotation, at: 0)
+                }
+                
+                self.userLocation?.center = newAnnotation.coordinate
+                mapViewInstance.addAnnotation (newAnnotation)
+            }
+        }
+        
+        
+    }
+    
     func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
         if shouldCallPhotoPicker {
-            self.addPlaceholderPin (
-                on: mapView, in: CLLocationCoordinate2D (
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                )
-            )
-            self.isPresented.toggle()
+            self.checkPermission { status in
+                if status == .authorized {
+                    DispatchQueue.main.async {
+                        self.addPlaceholderPin (
+                            on: mapView, in: CLLocationCoordinate2D (
+                                latitude: location.latitude,
+                                longitude: location.longitude
+                            )
+                        )
+                        self.isPresented.toggle()
+                    }
+                }
+            }
         }
         self.holdTime = 0
         self.onHold.toggle()
@@ -86,12 +118,18 @@ class UserFeedController: NSObject, ObservableObject {
         mapView.addAnnotation(placeHolder)
     }
     
+    
+    private func removePlaceholderPin(on mapView: MKMapView, placeholderPin: UserImageAnnotation) {
+        mapView.removeAnnotation(placeholderPin)
+        self.mockedLandmarks.removeLast()
+    }
+    
     private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             if self.onHold {
                 self.holdTime += 1
-                if self.holdTime == 3 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
-                if self.holdTime >= 3 { self.shouldCallPhotoPicker = true }
+                if self.holdTime == 1 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
+                if self.holdTime >= 1 { self.shouldCallPhotoPicker = true }
                 return
             }
             self.holdTime = 0
@@ -156,14 +194,42 @@ class UserFeedController: NSObject, ObservableObject {
             // TODO Avaliar Case
             break
         case .authorizedAlways, .authorizedWhenInUse:
+            guard let location = locationManager.location else { return }
             userLocation = MKCoordinateRegion(
-                center: locationManager.location!.coordinate,
+                center: location.coordinate,
                 span: MKCoordinateSpan(
                     latitudeDelta: 0.05,
                     longitudeDelta: 0.05
                 )
             )
             break
+        @unknown default:
+            break
+        }
+    }
+    
+    func checkPermission(completionHandler: @escaping (PHAuthorizationStatus) -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
+            case .authorized:
+                completionHandler(.authorized)
+                print("Access is granted by user")
+            case .notDetermined:
+                PHPhotoLibrary.requestAuthorization({
+                    (newStatus) in
+                        completionHandler(newStatus)
+                })
+                print("It is not determined until now")
+            case .restricted:
+                completionHandler(.restricted)
+                break
+            case .denied:
+                completionHandler(.denied)
+                break
+            case .limited:
+                completionHandler(.limited)
+                break
         @unknown default:
             break
         }
@@ -175,3 +241,4 @@ extension UserFeedController: CLLocationManagerDelegate {
         self.checkLocationAuthorization()
     }
 }
+

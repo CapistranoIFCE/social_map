@@ -19,27 +19,27 @@ struct UserFeedView: View {
                     )
                     
                     VStack(alignment: .leading){
-                        Text("Albuns de Davi")
-                            .font(.system(size: 24))
+                        Text("David's Albums")
+                            .font(.system(size: 20))
                             .bold()
                             .padding()
+                        
                         HStack{
                             ScrollView(.horizontal, showsIndicators: false) {
                                 Spacer()
                                 HStack {
-                                    ForEach(UserStory.mocketStories) { story in
-                                        UserComponentStory(image: story.image, name: story.identifier)
+                                    ForEach(controller.mockedLandmarks) { story in
+                                        UserComponentStory (
+                                            image: story.image,
+                                            name: story.title ?? "Untitle")
                                             .onTapGesture {
-                                                controller.userLocation?.center = CLLocationCoordinate2D (
-                                                    latitude: story.location.latitude,
-                                                    longitude: story.location.longitude
-                                                )
+                                                controller.userLocation?.center = story.coordinate
                                             }
                                     }
                                     
                                 }
                             }
-                            .frame(height: geometry.size.height * 0.125)
+                            .frame(height: geometry.size.height * 0.12)
                         }
                     }
                 }
@@ -52,9 +52,14 @@ struct UserFeedView: View {
                 .position(controller.pulseOrigin)
                 .opacity(controller.onHold ? 1 : 0)
                 
+                
                 HStack {
                     Rectangle()
-                        .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
+                        .frame (
+                            width: geometry.size.width * 0.1,
+                            height: geometry.size.height -
+                            geometry.size.height * 0.12
+                        )
                         .onTapGesture(count: 2, perform: {
                             controller.goToPreviousImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -67,35 +72,27 @@ struct UserFeedView: View {
                     Spacer()
                     
                     Rectangle()
-                        .frame(width: geometry.size.width * 0.1, height: geometry.size.height)
+                        .frame (
+                            width: geometry.size.width * 0.1,
+                            height: geometry.size.height -
+                            geometry.size.height * 0.12
+                        )
                         .onTapGesture(count: 2, perform: {
                             controller.goToNextImage()
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        } )
+                        })
                         .onTapGesture {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         }
                         .foregroundColor(.blue.opacity(0.00001))
                 }
-                 .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            controller.isPresented.toggle()
-                        }) {
-                            Image(systemName: "photo.circle.fill").scaleEffect(x: 2, y: 2)
-                                .buttonStyle(.borderedProminent)
-                                .controlSize(.regular)
-                        }.sheet(isPresented: $controller.isPresented) {
+                .sheet(isPresented: $controller.isPresented) {
                             PhotoPicker(
                                 configuration: controller.config,
-                                pickerResult: $controller.pickerResult,
-                                isPresented: $controller.isPresented,
-                                cancelTapped: $controller.cancelTapped
+                                photoPickerDismissCallBack: controller.photoPickerHasBeingDismiss,
+                                isPresented: $controller.isPresented
                             )
                         }
-                        .frame(minWidth: CGFloat(UserStory.mocketStories.count) * (geometry.size.width / 4), alignment: .leading)
-                    }
-                }
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
