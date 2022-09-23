@@ -11,11 +11,14 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
         if let annotation = annotation as? UserImageAnnotation {
             let annotationView = MKAnnotationView()
             let annotationFrame = CGSize(width: 64, height: 48)
+            let annotationImage = annotation.image.resizeImageTo (
+                size: CGSize(width: 84, height: 64)
+            )?.withRoundedCorners(radius: 16)
             
             annotationView.frame.size = annotationFrame
-            annotationView.image = annotation.image.resizeImageTo(size: CGSize(width: 84, height: 64))
+            annotationView.image = annotationImage
             annotationView.layer.cornerRadius = 20
-            annotationView.contentMode = .scaleToFill
+            annotationView.contentMode = .scaleAspectFit
             annotationView.canShowCallout = true
             
             return annotationView

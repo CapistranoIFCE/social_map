@@ -62,7 +62,7 @@ class UserFeedController: NSObject, ObservableObject {
                     
             if !pickedImages.isEmpty {
                 let newAnnotation = UserImageAnnotation(
-                    title: "",
+                    title: "Untitle",
                     subtitle: "",
                     image: pickedImages.last!,
                     coordinate: placeholderCoordinate
@@ -125,7 +125,7 @@ class UserFeedController: NSObject, ObservableObject {
     }
     
     private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             if self.onHold {
                 self.holdTime += 1
                 if self.holdTime == 1 {  UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }

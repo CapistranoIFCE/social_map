@@ -31,6 +31,7 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
                 }
             }
         }
+        // TODO remove pin when photopicker cancel
         parent.isPresented = false
     }
 }

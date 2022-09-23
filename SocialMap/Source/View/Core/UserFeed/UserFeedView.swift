@@ -19,7 +19,7 @@ struct UserFeedView: View {
                     )
                     
                     VStack(alignment: .leading){
-                        Text("Albuns de Davi")
+                        Text("David's Albums")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
@@ -39,7 +39,7 @@ struct UserFeedView: View {
                                     
                                 }
                             }
-                            .frame(height: geometry.size.height * 0.070)
+                            .frame(height: geometry.size.height * 0.12)
                         }
                     }
                 }
@@ -58,7 +58,7 @@ struct UserFeedView: View {
                         .frame (
                             width: geometry.size.width * 0.1,
                             height: geometry.size.height -
-                            geometry.size.height * 0.070
+                            geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
                             controller.goToPreviousImage()
@@ -75,7 +75,7 @@ struct UserFeedView: View {
                         .frame (
                             width: geometry.size.width * 0.1,
                             height: geometry.size.height -
-                            geometry.size.height * 0.070
+                            geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
                             controller.goToNextImage()

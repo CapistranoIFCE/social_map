@@ -10,7 +10,7 @@ struct UserComponentStory: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 50, height: 50)
+                .frame(width: 64, height: 64)
                 .clipShape(Capsule())
             
             Text(name)
