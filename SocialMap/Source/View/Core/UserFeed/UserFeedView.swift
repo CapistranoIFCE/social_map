@@ -31,10 +31,11 @@ struct UserFeedView: View {
                                     ForEach(controller.mockedLandmarks) { story in
                                         UserComponentStory (
                                             image: story.image,
-                                            name: story.title ?? "Untitle")
-                                            .onTapGesture {
-                                                controller.userLocation?.center = story.coordinate
-                                            }
+                                            name: story.title ?? "Untitle",
+                                            focused: story == controller.currentLandmark
+                                        ).onTapGesture {
+                                            controller.changeCurrentLandmark(to: story)
+                                        }
                                     }
                                     
                                 }
