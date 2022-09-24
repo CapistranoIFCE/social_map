@@ -12,6 +12,7 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var isPresented: Bool = false
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
+    @Published var currentLandmark: UserImageAnnotation? = nil
     
     var config: PHPickerConfiguration{
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -24,7 +25,6 @@ class UserFeedController: NSObject, ObservableObject {
     let mapViewCoordinator = MapViewCoordinator()
     let animationView = AnimationView()
     var locationManager: CLLocationManager?
-    var currentLandmark: UserImageAnnotation? = nil
     var shouldCallPhotoPicker = false
     var holdTime = 0
     
@@ -35,8 +35,7 @@ class UserFeedController: NSObject, ObservableObject {
                 in: mockedLandmarks,
                 by: currentLandmark?.coordinate ?? userLocation!.center
             )
-            currentLandmark = nearestLandmarkRight
-            userLocation!.center = nearestLandmarkRight?.coordinate ?? locationManager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            changeCurrentLandmark(to: nearestLandmarkRight)
         }
     }
     
@@ -47,9 +46,13 @@ class UserFeedController: NSObject, ObservableObject {
                 in: mockedLandmarks,
                 by: currentLandmark?.coordinate ?? userLocation!.center
             )
-            currentLandmark = nearestLandmarkLeft
-            userLocation!.center = nearestLandmarkLeft?.coordinate ?? locationManager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            changeCurrentLandmark(to: nearestLandmarkLeft)
         }
+    }
+    
+    func changeCurrentLandmark(to newLandmark: UserImageAnnotation?) {
+        self.currentLandmark = newLandmark
+        self.userLocation?.center = newLandmark?.coordinate ?? locationManager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     }
     
     func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
@@ -72,7 +75,7 @@ class UserFeedController: NSObject, ObservableObject {
                     self.mockedLandmarks.insert(newAnnotation, at: 0)
                 }
                 
-                self.userLocation?.center = newAnnotation.coordinate
+                self.changeCurrentLandmark(to: newAnnotation)
                 mapViewInstance.addAnnotation (newAnnotation)
             }
         }
