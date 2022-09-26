@@ -101,7 +101,7 @@ struct SheetView: View {
             .padding(.bottom,20)
             .padding(.top, 15)
             .background(BlurShape())
-s        }
+        }
     }
     
     struct BlurShape: UIViewRepresentable {
