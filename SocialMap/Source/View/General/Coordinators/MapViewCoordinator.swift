@@ -7,10 +7,10 @@ struct PhotoPickerResult: Identifiable {
     let index: Int
 }
 
-
 class CustomAnnotationView: MKAnnotationView {
-    
     var images: [UIImage] = []
+    fileprivate var width: NSLayoutConstraint!
+    fileprivate var height: NSLayoutConstraint!
     
     let image01: UIImageView = {
         let image1 = UIImageView()
@@ -19,7 +19,7 @@ class CustomAnnotationView: MKAnnotationView {
         image1.translatesAutoresizingMaskIntoConstraints = false
         return image1
     }()
-
+    
     let image02: UIImageView = {
         let image2 = UIImageView()
         image2.contentMode = .scaleAspectFill
@@ -27,7 +27,7 @@ class CustomAnnotationView: MKAnnotationView {
         image2.translatesAutoresizingMaskIntoConstraints = false
         return image2
     }()
-
+    
     let image03: UIImageView = {
         let image3 = UIImageView()
         image3.contentMode = .scaleAspectFill
@@ -41,9 +41,17 @@ class CustomAnnotationView: MKAnnotationView {
         self.addSubview(image01)
         self.addSubview(image02)
         self.addSubview(image03)
-        self.configureConstraints()
-
         
+        self.width = self.widthAnchor.constraint(equalToConstant: 100)
+        self.height = self.heightAnchor.constraint(equalToConstant: 100)
+        
+        self.width.isActive = true
+        self.height.isActive = true
+        
+        image03.widthAnchor.constraint(equalToConstant: self.width.constant).isActive = true
+        image03.heightAnchor.constraint(equalToConstant: self.height.constant).isActive = true
+        
+        self.configureConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,26 +60,43 @@ class CustomAnnotationView: MKAnnotationView {
     
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            image01.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            image01.topAnchor.constraint(equalTo: image03.topAnchor, constant: -30),
+            image01.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image01.widthAnchor.constraint(equalToConstant: 60),
             image01.heightAnchor.constraint(equalToConstant: 60),
-            image01.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            image02.topAnchor.constraint(equalTo: image01.topAnchor, constant: 10),
+            image02.topAnchor.constraint(equalTo: image03.topAnchor, constant: -15),
+            image02.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image02.widthAnchor.constraint(equalToConstant: 85),
             image02.heightAnchor.constraint(equalToConstant: 85),
-            image02.centerXAnchor.constraint(equalTo: image01.centerXAnchor)
         ])
+    }
+    
+    func closeAlbum() {
+        self.height.constant = 10
         
-        NSLayoutConstraint.activate([
-            image03.topAnchor.constraint(equalTo: image02.topAnchor, constant: 10),
-            image03.widthAnchor.constraint(equalToConstant: 100),
-            image03.heightAnchor.constraint(equalToConstant: 100),
-            image03.centerXAnchor.constraint(equalTo: image02.centerXAnchor)
-        ])
+        UIView.animate(withDuration: 0.1,
+                       delay: 0.1,
+                       options: UIView.AnimationOptions.curveEaseIn,
+                       animations: { () -> Void in
+                           self.superview?.layoutIfNeeded()
+            }, completion: { (finished) -> Void in
+            // ....
+        })    }
+    
+    func openAlbum() {
+        self.width.constant = 300
         
+        UIView.animate(withDuration: 0.1,
+                       delay: 0.1,
+                       options: UIView.AnimationOptions.curveEaseIn,
+                       animations: { () -> Void in
+                           self.superview?.layoutIfNeeded()
+            }, completion: { (finished) -> Void in
+            // ....
+        })
     }
 }
 
@@ -80,11 +105,10 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
-
+        
         if let annotation = annotation as? UserImageAnnotation {
             let annotationView = CustomAnnotationView()
             let annotationFrame = CGSize(width: 64, height: 48)
-
             
             for (index, image) in annotation.image.enumerated() {
                 if index == 0 {
@@ -101,7 +125,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             annotationView.frame.size = annotationFrame
             annotationView.layer.cornerRadius = 20
             annotationView.contentMode = .scaleAspectFit
-            annotationView.canShowCallout = true
+            //            annotationView.canShowCallout = true
             
             return annotationView
         }
@@ -110,7 +134,21 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotationView = view as? CustomAnnotationView else { return }
+        annotationView.superview?.layoutIfNeeded()
+        annotationView.openAlbum()
+       
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        guard let annotationView = view as? CustomAnnotationView else { return }
+        annotationView.superview?.layoutIfNeeded()
+        
+        
+        annotationView.closeAlbum()
 
+        
     }
     
     @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer) {
