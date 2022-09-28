@@ -10,13 +10,27 @@ struct UserFeedView: View {
         NavigationView{
             GeometryReader { (geometry) in
                 VStack {
-                    MapView (
-                        landmarks: controller.mockedLandmarks,
-                        coordinator: controller.mapViewCoordinator,
-                        locationCoordinate: controller.userLocation?.center ?? .init(),
-                        onLongPress: controller.callPhotoPicker,
-                        oneClickCallback: controller.startAnimation
-                    )
+                    ZStack {
+                        MapView (
+                            landmarks: controller.mockedLandmarks,
+                            coordinator: controller.mapViewCoordinator,
+                            locationCoordinate: controller.userLocation?.center ?? .init(),
+                            onLongPress: controller.callPhotoPicker,
+                            oneClickCallback: controller.startAnimation
+                        )
+                        
+                        Image(systemName: "photo.on.rectangle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 46, height: 46)
+                            .position(controller.currentPinPosition)
+                            .opacity(controller.addPhotoPin ? 1 : 0)
+                            .shadow(
+                                color: .black,
+                                radius: controller.addPhotoPin ? 10 : 0,
+                                x: 0.5, y: 1.5
+                            )
+                    }
                     
                     VStack(alignment: .leading){
                         Text("David's Albums")
@@ -94,6 +108,22 @@ struct UserFeedView: View {
                                 isPresented: $controller.isPresented
                             )
                         }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            if controller.addPhotoPin {
+                                controller.addPinAsAnnotation()
+                            }
+                            controller.addPhotoPin.toggle()
+                        } label: {
+                            if controller.addPhotoPin {
+                                Text("Done")
+                            } else {
+                                Image(systemName: "plus")
+                            }
+                        }
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
