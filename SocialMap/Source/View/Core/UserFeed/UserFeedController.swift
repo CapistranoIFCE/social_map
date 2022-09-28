@@ -13,6 +13,11 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
     @Published var currentLandmark: UserImageAnnotation? = nil
+    @Published var addPhotoPin = false
+    @Published var currentPinPosition: CGPoint = CGPoint(
+        x: UIScreen.main.bounds.width * 0.5,
+        y: UIScreen.main.bounds.height * 0.5
+    )
     
     var config: PHPickerConfiguration{
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -58,12 +63,13 @@ class UserFeedController: NSObject, ObservableObject {
     func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
         guard let placeholderPin = mockedLandmarks.last else { return }
         guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
-        let placeholderCoordinate = placeholderPin.coordinate
-
+        
         DispatchQueue.main.async {
             self.removePlaceholderPin(on: mapViewInstance, placeholderPin: placeholderPin)
                     
             if !pickedImages.isEmpty {
+                let placeholderCoordinate = placeholderPin.coordinate
+                
                 let newAnnotation = UserImageAnnotation(
                     title: "Untitle",
                     subtitle: "",
@@ -100,13 +106,31 @@ class UserFeedController: NSObject, ObservableObject {
             }
         }
         self.holdTime = 0
-        self.onHold.toggle()
+        self.onHold = false
         self.shouldCallPhotoPicker = false
+    }
+    
+    func addPinAsAnnotation() {
+        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        let pinPositionAsCoordinate = mapViewInstance.convert(
+            self.currentPinPosition,
+            toCoordinateFrom: mapViewInstance
+        )
+        
+        shouldCallPhotoPicker = true
+        
+        self.callPhotoPicker(
+            Location(
+                latitude: pinPositionAsCoordinate.latitude,
+                longitude: pinPositionAsCoordinate.longitude
+            ),
+            mapViewInstance
+        )
     }
     
     func startAnimation(_ point: CGPoint, _ mapView: MKMapView) {
         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-        withAnimation(.spring().speed(0.05)) { self.onHold.toggle() }
+        withAnimation(.spring().speed(0.05)) { self.onHold = true }
         self.pulseOrigin = point
         self.startTimer()
     }
@@ -117,6 +141,7 @@ class UserFeedController: NSObject, ObservableObject {
             subtitle: "",
             coordinate: location
         )
+        self.changeCurrentLandmark(to: placeHolder)
         mockedLandmarks.append(placeHolder)
         mapView.addAnnotation(placeHolder)
     }

@@ -12,6 +12,7 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         Task {
             var resultImages = [UIImage]()
+            if results.isEmpty { self.parent.photoPickerDismissCallBack([]) }
             for image in results {
                 if image.itemProvider.canLoadObject(ofClass: UIImage.self){
                     image.itemProvider.loadObject(ofClass: UIImage.self){ newImage, error in
@@ -21,8 +22,9 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
                         else {
                             resultImages.append( newImage as! UIImage)
                             if resultImages.count == results.count {
-                                    self.parent.photoPickerDismissCallBack(resultImages)
-                                }
+                                self.parent.photoPickerDismissCallBack(resultImages)
+                                return
+                            }
                             
                         }
                     }
@@ -30,8 +32,8 @@ class PhotoPickerCoordinator: PHPickerViewControllerDelegate {
                     print("Selected asset is not an image")
                 }
             }
+            
         }
-        // TODO remove pin when photopicker cancel
         parent.isPresented = false
     }
 }
