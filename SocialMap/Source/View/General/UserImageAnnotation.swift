@@ -5,12 +5,12 @@ class UserImageAnnotation: NSObject, MKAnnotation, Identifiable {
     let id = UUID()
     let title: String?
     let subtitle: String?
-    var image: UIImage!
+    var image: [UIImage]!
     var coordinate: CLLocationCoordinate2D
     
     init(title: String?,
          subtitle: String?,
-         image: UIImage = UIImage(systemName: "photo.on.rectangle")!,
+         image: [UIImage],
          coordinate: CLLocationCoordinate2D) {
             self.title = title
             self.subtitle = subtitle
@@ -30,7 +30,7 @@ extension UserImageAnnotation {
                 UserImageAnnotation(
                     title: data.identifier,
                     subtitle: "",
-                    image: UIImage (named: data.image) ?? UIImage (systemName: "photo")! ,
+                    image: [UIImage (named: data.image) ?? UIImage (systemName: "photo")!] ,
                     coordinate: CLLocationCoordinate2D(
                         latitude: data.location.latitude,
                         longitude: data.location.longitude

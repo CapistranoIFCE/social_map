@@ -67,7 +67,7 @@ class UserFeedController: NSObject, ObservableObject {
                 let newAnnotation = UserImageAnnotation(
                     title: "Untitle",
                     subtitle: "",
-                    image: pickedImages.last!,
+                    image: pickedImages,
                     coordinate: placeholderCoordinate
                 )
                 
@@ -76,7 +76,7 @@ class UserFeedController: NSObject, ObservableObject {
                 }
                 
                 self.changeCurrentLandmark(to: newAnnotation)
-                mapViewInstance.addAnnotation (newAnnotation)
+                mapViewInstance.addAnnotation(newAnnotation)
             }
         }
         
@@ -115,6 +115,7 @@ class UserFeedController: NSObject, ObservableObject {
         let placeHolder = UserImageAnnotation(
             title: "",
             subtitle: "",
+            image: [UIImage(systemName: "photo.on.rectangle")!],
             coordinate: location
         )
         mockedLandmarks.append(placeHolder)

@@ -30,7 +30,7 @@ struct UserFeedView: View {
                                 HStack {
                                     ForEach(controller.mockedLandmarks) { story in
                                         UserComponentStory (
-                                            image: story.image,
+                                            image: story.image.last!,
                                             name: story.title ?? "Untitle",
                                             focused: story == controller.currentLandmark
                                         ).onTapGesture {
