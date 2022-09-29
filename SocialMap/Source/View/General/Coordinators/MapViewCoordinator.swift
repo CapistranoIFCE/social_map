@@ -9,8 +9,10 @@ struct PhotoPickerResult: Identifiable {
 
 class CustomAnnotationView: MKAnnotationView {
     var images: [UIImage] = []
-    fileprivate var width: NSLayoutConstraint!
-    fileprivate var height: NSLayoutConstraint!
+    
+    fileprivate var image03TopConstraint: NSLayoutConstraint!
+    fileprivate var image02TopConstraint: NSLayoutConstraint!
+    fileprivate var image01TopConstraint: NSLayoutConstraint!
     
     let image01: UIImageView = {
         let image1 = UIImageView()
@@ -42,15 +44,6 @@ class CustomAnnotationView: MKAnnotationView {
         self.addSubview(image02)
         self.addSubview(image03)
         
-        self.width = self.widthAnchor.constraint(equalToConstant: 100)
-        self.height = self.heightAnchor.constraint(equalToConstant: 100)
-        
-        self.width.isActive = true
-        self.height.isActive = true
-        
-        image03.widthAnchor.constraint(equalToConstant: self.width.constant).isActive = true
-        image03.heightAnchor.constraint(equalToConstant: self.height.constant).isActive = true
-        
         self.configureConstraints()
     }
     
@@ -59,44 +52,59 @@ class CustomAnnotationView: MKAnnotationView {
     }
     
     func configureConstraints() {
+        image03TopConstraint = self.topAnchor.constraint(equalTo: self.topAnchor, constant: 45)
+        image02TopConstraint = image03.topAnchor.constraint(equalTo: self.topAnchor, constant: 30)
+        image01TopConstraint = image03.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
+        
+        image02TopConstraint.isActive = true
+        image01TopConstraint.isActive = true
+        
         NSLayoutConstraint.activate([
-            image01.topAnchor.constraint(equalTo: image03.topAnchor, constant: -30),
+            image01.topAnchor.constraint(
+                equalTo: image03.topAnchor,
+                constant: image01TopConstraint.constant
+            ),
+            
             image01.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image01.widthAnchor.constraint(equalToConstant: 60),
             image01.heightAnchor.constraint(equalToConstant: 60),
         ])
         
         NSLayoutConstraint.activate([
-            image02.topAnchor.constraint(equalTo: image03.topAnchor, constant: -15),
+            image02.topAnchor.constraint(
+                equalTo: image03.topAnchor,
+                constant: image02TopConstraint.constant
+            ),
+            
             image02.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image02.widthAnchor.constraint(equalToConstant: 85),
             image02.heightAnchor.constraint(equalToConstant: 85),
         ])
+        
+        NSLayoutConstraint.activate([
+            image03.topAnchor.constraint(equalTo: self.topAnchor, constant: image03TopConstraint.constant),
+            image03.widthAnchor.constraint(equalToConstant: 100),
+            image03.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
     }
     
     func closeAlbum() {
-        self.height.constant = 10
-        
-        UIView.animate(withDuration: 0.1,
-                       delay: 0.1,
-                       options: UIView.AnimationOptions.curveEaseIn,
-                       animations: { () -> Void in
-                           self.superview?.layoutIfNeeded()
-            }, completion: { (finished) -> Void in
-            // ....
-        })    }
+        UIView.animate(withDuration: 1.0) {
+            self.image01TopConstraint.constant = 0
+            self.image02TopConstraint.constant = 35
+            self.image03TopConstraint.constant = 45
+            self.layoutIfNeeded()
+        }
+    }
     
     func openAlbum() {
-        self.width.constant = 300
-        
-        UIView.animate(withDuration: 0.1,
-                       delay: 0.1,
-                       options: UIView.AnimationOptions.curveEaseIn,
-                       animations: { () -> Void in
-                           self.superview?.layoutIfNeeded()
-            }, completion: { (finished) -> Void in
-            // ....
-        })
+        UIView.animate(withDuration: 1.0) {
+            self.image01TopConstraint.constant = 0
+            self.image02TopConstraint.constant = 70
+            self.image03TopConstraint.constant = 100
+            self.layoutIfNeeded()
+        }
     }
 }
 
@@ -137,18 +145,12 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
         guard let annotationView = view as? CustomAnnotationView else { return }
         annotationView.superview?.layoutIfNeeded()
         annotationView.openAlbum()
-       
-        
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         guard let annotationView = view as? CustomAnnotationView else { return }
         annotationView.superview?.layoutIfNeeded()
-        
-        
         annotationView.closeAlbum()
-
-        
     }
     
     @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer) {
