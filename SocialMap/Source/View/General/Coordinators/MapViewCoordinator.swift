@@ -4,14 +4,19 @@ import MapKit
 
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
     weak var mapViewInstance: MKMapView?
+    weak var controllerInstance: UserFeedController?
     
+    init(controllerInstance: UserFeedController? = nil) {
+        self.controllerInstance = controllerInstance
+    }
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
 
         if let annotation = annotation as? UserImageAnnotation {
             let annotationView = MKAnnotationView()
             let annotationFrame = CGSize(width: 64, height: 48)
-            let annotationImage = annotation.image.resizeImageTo (
+            let annotationImage = annotation.images.last!.resizeImageTo (
                 size: CGSize(width: 84, height: 64)
             )?.withRoundedCorners(radius: 16)
             
@@ -19,7 +24,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             annotationView.image = annotationImage
             annotationView.layer.cornerRadius = 20
             annotationView.contentMode = .scaleAspectFit
-            annotationView.canShowCallout = true
+//            annotationView.canShowCallout = true
             
             return annotationView
         }
@@ -28,7 +33,9 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        //clickAquiDavi
+        guard let controllerInstance = controllerInstance else { return }
+        guard let selectedAnnotation = view.annotation as? UserImageAnnotation else { return }
+        controllerInstance.callAnnotationDetails(selectedAnnotation)
     }
     
     @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer) {

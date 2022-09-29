@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct ImageVisualization: View {
-    @StateObject var mainViewController: MainViewController
     @StateObject var controller = ImageVisualizationController()
     
     var body: some View {
@@ -17,25 +16,22 @@ struct ImageVisualization: View {
             .frame(maxWidth: .infinity,alignment: .leading)
             .overlay(
             
-            Text("Noronhando")
+            Text(controller.annotation?.title ?? "")
                 .font(.title.bold())
-            
             )
             .foregroundColor(.black)
             .padding()
             
             ZStack{
-                if let imagesAnnotation = controller.annotation?.image{
+                if let imagesAnnotation = controller.annotation?.images {
                     if imagesAnnotation.isEmpty{
                         Text("Todas as fotos foram visualizadas")
                             .font(.caption)
                             .foregroundColor(.gray)
-                            
-                        
                     }
                     else{
-                        ForEach(imagesAnnotation.reversed()) { currentAnnotation in
-                            StackCardView(imageAnnotation: currentAnnotation)
+                        ForEach(imagesAnnotation.reversed(), id: \.self) { currentImage in
+                            StackCardView(imageAnnotation: currentImage)
                                 .environmentObject(controller)
                         }
                     }
@@ -80,7 +76,7 @@ struct ImageVisualization: View {
                     
                 }
                 Button{
-                    mainViewController.isShowing.toggle()
+                   
                 }label:{
                     
                     Image(systemName: "trash")
@@ -99,15 +95,7 @@ struct ImageVisualization: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
-            guard let annotation = mainViewController.selectedAnnotation else { return }
-            controller.fetchedUsers =  annotation
+ 
         }
     }
 }
-
-//struct Home_Previews: PreviewProvider {
-//    
-//    static var previews: some View {
-//        Home(isPresented: <#T##Binding<Bool>#>)
-//    }
-//}

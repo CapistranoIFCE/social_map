@@ -14,6 +14,7 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var onHold = false
     @Published var currentLandmark: UserImageAnnotation? = nil
     @Published var selectedAnnotation: UserImageAnnotation? = nil
+    @Published var showAnnotationDetails = false
     
     var config: PHPickerConfiguration{
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -28,6 +29,8 @@ class UserFeedController: NSObject, ObservableObject {
     var locationManager: CLLocationManager?
     var shouldCallPhotoPicker = false
     var holdTime = 0
+    var imageVisualizationController: ImageVisualizationController?
+    
     
     func goToNextImage() {
         if userLocation != nil {
@@ -68,7 +71,7 @@ class UserFeedController: NSObject, ObservableObject {
                 let newAnnotation = UserImageAnnotation(
                     title: "Untitle",
                     subtitle: "",
-                    image: pickedImages.last!,
+                    images: pickedImages,
                     coordinate: placeholderCoordinate
                 )
                 
@@ -82,21 +85,11 @@ class UserFeedController: NSObject, ObservableObject {
         }
     }
     
-//
-// DAVI CAPISTRANO
-//
-//    
-//    var imageDetailsComponent: some View {
-//        ZStack {
-//            Color.black.opacity(0.5).ignoresSafeArea()
-//            
-//            VStack {
-//              Image(uiImage: imageSelected ?? UIImage)
-//                
-//                
-//            }
-//        }
-//    }
+    func callAnnotationDetails(_ userImageAnnotation: UserImageAnnotation) {
+        changeCurrentLandmark(to: userImageAnnotation)
+        imageVisualizationController = ImageVisualizationController(annotation: userImageAnnotation)
+        showAnnotationDetails.toggle()
+    }
     
     func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
         if shouldCallPhotoPicker {

@@ -5,18 +5,17 @@ struct StackCardView: View {
     @GestureState var isDraggin: Bool = false
     @State var offset: CGFloat = 0
     @State var endSwipe: Bool = false
-    var imageAnnotation: UserImageAnnotation
+    var imageAnnotation: UIImage
     
     var body: some View {
-        GeometryReader{proxy in
+        GeometryReader{ proxy in
             let size = proxy.size
-            
             let index = CGFloat(imageVisualizationControlller.getIndex(imageAnnotation: imageAnnotation))
             let topOffset = (index <= 2 ? index : 2) * 15
 
             ZStack{
                 
-                Image(uiImage: imageAnnotation.image)
+                Image(uiImage: imageAnnotation)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: size.width - topOffset, height: size.height)
@@ -70,21 +69,14 @@ struct StackCardView: View {
         withAnimation(.none){endSwipe = true}
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            if let _ = imageVisualizationControlller.displayingUsers?.first{
-                
+            if let _ = imageVisualizationControlller.annotation?.images.first{
                 let _ = withAnimation{
-                    imageVisualizationControlller.displayingUsers?.removeFirst()
+                    imageVisualizationControlller.annotation?.images.removeFirst()
                 }
             }
         }
     }
 }
-//
-//struct StackCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserFeedView()
-//    }
-//}
 
 extension View{
     func getRect()->CGRect{

@@ -7,7 +7,8 @@ struct MainView<Content: View, DetailsContent: View>: View {
     
     var body: some View {
         Group {
-            if controller.isShowing { ZStack { content().blur(radius: controller.isShowing ? 5.0 : 0.0); detailsContent() } }
+            if controller.isShowing {
+                ZStack { content().blur(radius: controller.isShowing ? 5.0 : 0.0); detailsContent() } }
             else { content() }
         }
         .animation(.default, value: controller.isShowing)

@@ -4,7 +4,6 @@ import PhotosUI
 
 
 struct UserFeedView: View {
-    @StateObject var mainViewController: MainViewController
     @StateObject private var controller = UserFeedController()
     
     var body: some View {
@@ -31,7 +30,7 @@ struct UserFeedView: View {
                                 HStack {
                                     ForEach(controller.mockedLandmarks) { story in
                                         UserComponentStory (
-                                            image: story.image,
+                                            image: story.images.last!,
                                             name: story.title ?? "Untitle",
                                             focused: story == controller.currentLandmark
                                         ).onTapGesture {
@@ -45,11 +44,6 @@ struct UserFeedView: View {
                         }
                     }
                 }
-                
-                Button("Tap me"){
-                    mainViewController.selectedAnnotation = controller.mockedLandmarks.first
-                    mainViewController.isShowing.toggle()
-                }.position(x: 300, y: 300)
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -101,8 +95,15 @@ struct UserFeedView: View {
                             )
                         }
             }
+            .overlay(content: {
+                ImageVisualization(
+                    controller: controller.imageVisualizationController ?? ImageVisualizationController(annotation:     controller.mockedLandmarks.last)
+                    
+                ).opacity(controller.imageVisualizationController != nil ? 1 : 0)
+            })
             .edgesIgnoringSafeArea(.top)
             .onAppear {
+                controller.mapViewCoordinator.controllerInstance = controller
                 controller.checkIfLocationServiceIsEnable()
             }
         }
