@@ -4,7 +4,13 @@ import MapKit
 
 
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
+    private var title: String = "Delete"
     weak var mapViewInstance: MKMapView?
+    weak var controllerInstance: UserFeedController?
+   
+    init(controllerInstance: UserFeedController? = nil) {
+        self.controllerInstance = controllerInstance
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
@@ -99,19 +105,19 @@ extension MapViewCoordinator : UIContextMenuInteractionDelegate {
 
         return UIContextMenuConfiguration(identifier: "\(annotation.id)" as NSCopying, previewProvider: nil) { _ in
             
-            let favorite = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
-                print("Edit")
+            let edit = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
+                return
             }
-            let share = UIAction(title: "Delete photo", image: UIImage(systemName: "trash")) { _ in
-                print("Delete")
+            
+            let delete = UIAction(title: self.title, image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+//                let result = self.controllerInstance?.mockedLandmarks.first { $0.image == annotation.image }
+//                print(annotation.image)
+//                print(result?.image)
+                self.controllerInstance?.mockedLandmarks.removeAll(where: { $0.image == annotation.image })
                 self.mapViewInstance?.removeAnnotation(annotation)
             }
-            
-            return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [favorite, share])
-            
+                                    
+            return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [edit, delete])
         }
     }
-    
-
-
 }
