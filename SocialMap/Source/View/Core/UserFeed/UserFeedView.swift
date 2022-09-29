@@ -33,7 +33,7 @@ struct UserFeedView: View {
                     }
                     
                     VStack(alignment: .leading){
-                        Text("David's Albums")
+                        Text("Your's Albums")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
@@ -44,7 +44,7 @@ struct UserFeedView: View {
                                 HStack {
                                     ForEach(controller.mockedLandmarks) { story in
                                         UserComponentStory (
-                                            image: story.image,
+                                            image: story.image.last!,
                                             name: story.title ?? "Untitle",
                                             focused: story == controller.currentLandmark
                                         ).onTapGesture {

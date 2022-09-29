@@ -58,6 +58,10 @@ class UserFeedController: NSObject, ObservableObject {
     func changeCurrentLandmark(to newLandmark: UserImageAnnotation?) {
         self.currentLandmark = newLandmark
         self.userLocation?.center = newLandmark?.coordinate ?? locationManager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+        
+        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        guard let annotation = newLandmark else { return }
+        mapViewInstance.selectAnnotation(annotation, animated: false)
     }
     
     func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
@@ -73,7 +77,7 @@ class UserFeedController: NSObject, ObservableObject {
                 let newAnnotation = UserImageAnnotation(
                     title: "Untitle",
                     subtitle: "",
-                    image: pickedImages.last!,
+                    image: pickedImages,
                     coordinate: placeholderCoordinate
                 )
                 
@@ -82,7 +86,7 @@ class UserFeedController: NSObject, ObservableObject {
                 }
                 
                 self.changeCurrentLandmark(to: newAnnotation)
-                mapViewInstance.addAnnotation (newAnnotation)
+                mapViewInstance.addAnnotation(newAnnotation)
             }
         }
         
@@ -139,6 +143,7 @@ class UserFeedController: NSObject, ObservableObject {
         let placeHolder = UserImageAnnotation(
             title: "",
             subtitle: "",
+            image: [UIImage(systemName: "photo.on.rectangle")!],
             coordinate: location
         )
         self.changeCurrentLandmark(to: placeHolder)
