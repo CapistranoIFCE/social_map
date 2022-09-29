@@ -99,11 +99,12 @@ extension MapViewCoordinator : UIContextMenuInteractionDelegate {
 
         return UIContextMenuConfiguration(identifier: "\(annotation.id)" as NSCopying, previewProvider: nil) { _ in
             
-            let favorite = UIAction(title: "Favorite", image: UIImage(systemName: "heart")) { _ in
-                print("Favorite")
+            let favorite = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
+                print("Edit")
             }
-            let share = UIAction(title: "Share", image: UIImage(systemName: "share")) { _ in
-                print("Share")
+            let share = UIAction(title: "Delete photo", image: UIImage(systemName: "trash")) { _ in
+                print("Delete")
+                self.mapViewInstance?.removeAnnotation(annotation)
             }
             
             return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [favorite, share])
