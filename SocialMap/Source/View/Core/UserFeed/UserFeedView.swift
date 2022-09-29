@@ -33,31 +33,42 @@ struct UserFeedView: View {
                     }
                     
                     VStack(alignment: .leading){
-                        Text("Your's Albums")
+                        Text(
+                            !controller.mockedLandmarks.isEmpty ?
+                            "Your's Albums" : "No Albums Yet")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
                         
                         HStack{
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                Spacer()
-                                HStack {
-                                    ForEach(controller.mockedLandmarks) { story in
-                                        UserComponentStory (
-                                            image: story.image.last!,
-                                            name: story.title ?? "Untitle",
-                                            focused: story == controller.currentLandmark
-                                        ).onTapGesture {
-                                            controller.changeCurrentLandmark(to: story)
+                            if controller.mockedLandmarks.isEmpty {
+                                Text("Add your first album!")
+                                    .font(.body)
+                            } else {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    Spacer()
+                                    HStack {
+                                        ForEach(controller.mockedLandmarks) { story in
+                                            UserComponentStory (
+                                                image: story.image,
+                                                name: story.title ?? "Untitle",
+                                                focused: story == controller.currentLandmark
+                                            ).onTapGesture {
+                                                controller.changeCurrentLandmark(to: story)
+                                            }
                                         }
+                                        
                                     }
-                                    
                                 }
+                                .padding([.leading], 12)
+                                .frame(height: geometry.size.height * 0.12)
                             }
-                            .frame(height: geometry.size.height * 0.12)
-                        }
+                            }
+                            
                     }
                 }
+//                .clipShape( RoundedCorner(radius: 24, corners: [.topLeft, .topRight]) )
+                
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -118,8 +129,15 @@ struct UserFeedView: View {
                         } label: {
                             if controller.addPhotoPin {
                                 Text("Done")
+                                    .font(.caption)
+                                    .padding(6)
+                                    .foregroundColor(.black)
+                                    .background(Color("AccentColor"))
+                                    .cornerRadius(8)
                             } else {
-                                Image(systemName: "plus")
+                                Image(
+                                    systemName: "plus.rectangle.fill.on.rectangle.fill"
+                                )
                             }
                         }
                     }

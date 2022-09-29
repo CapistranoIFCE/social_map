@@ -17,8 +17,6 @@ class CustomAnnotationView: MKAnnotationView {
         image1.layer.cornerRadius = 5
         image1.tintColor = .black
         image1.translatesAutoresizingMaskIntoConstraints = false
-        
-
         return image1
     }()
     
@@ -47,7 +45,6 @@ class CustomAnnotationView: MKAnnotationView {
         self.addSubview(image01)
         self.addSubview(image02)
         self.addSubview(image03)
-        
         self.configureConstraints()
     }
     

@@ -8,7 +8,8 @@ import SwiftUI
 
 class UserFeedController: NSObject, ObservableObject {
     @Published var userLocation: MKCoordinateRegion?
-    @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
+//    @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
+    @Published var mockedLandmarks = [UserImageAnnotation]()
     @Published var isPresented: Bool = false
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
@@ -75,7 +76,7 @@ class UserFeedController: NSObject, ObservableObject {
                 let placeholderCoordinate = placeholderPin.coordinate
                 
                 let newAnnotation = UserImageAnnotation(
-                    title: "Untitle",
+                    title: "",
                     subtitle: "",
                     image: pickedImages,
                     coordinate: placeholderCoordinate
