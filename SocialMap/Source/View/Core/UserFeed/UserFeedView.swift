@@ -4,6 +4,7 @@ import PhotosUI
 
 
 struct UserFeedView: View {
+    @StateObject var mainViewController: MainViewController
     @StateObject private var controller = UserFeedController()
     
     var body: some View {
@@ -17,7 +18,7 @@ struct UserFeedView: View {
                         onLongPress: controller.callPhotoPicker,
                         oneClickCallback: controller.startAnimation
                     )
-                    
+                 
                     VStack(alignment: .leading){
                         Text("David's Albums")
                             .font(.system(size: 20))
@@ -44,6 +45,11 @@ struct UserFeedView: View {
                         }
                     }
                 }
+                
+                Button("Tap me"){
+                    mainViewController.selectedAnnotation = controller.mockedLandmarks.first
+                    mainViewController.isShowing.toggle()
+                }.position(x: 300, y: 300)
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -100,11 +106,5 @@ struct UserFeedView: View {
                 controller.checkIfLocationServiceIsEnable()
             }
         }
-    }
-}
-
-struct UserFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserFeedView()
     }
 }

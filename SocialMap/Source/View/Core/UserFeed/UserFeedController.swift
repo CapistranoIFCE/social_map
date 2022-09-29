@@ -13,6 +13,7 @@ class UserFeedController: NSObject, ObservableObject {
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
     @Published var currentLandmark: UserImageAnnotation? = nil
+    @Published var selectedAnnotation: UserImageAnnotation? = nil
     
     var config: PHPickerConfiguration{
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -79,9 +80,23 @@ class UserFeedController: NSObject, ObservableObject {
                 mapViewInstance.addAnnotation (newAnnotation)
             }
         }
-        
-        
     }
+    
+//
+// DAVI CAPISTRANO
+//
+//    
+//    var imageDetailsComponent: some View {
+//        ZStack {
+//            Color.black.opacity(0.5).ignoresSafeArea()
+//            
+//            VStack {
+//              Image(uiImage: imageSelected ?? UIImage)
+//                
+//                
+//            }
+//        }
+//    }
     
     func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
         if shouldCallPhotoPicker {

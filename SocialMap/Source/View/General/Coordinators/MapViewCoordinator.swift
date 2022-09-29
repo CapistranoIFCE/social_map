@@ -28,7 +28,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-
+        //clickAquiDavi
     }
     
     @objc func handleLongTapGesture(gestureRecognizer: UILongPressGestureRecognizer) {
