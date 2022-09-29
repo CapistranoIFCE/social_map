@@ -127,6 +127,7 @@ struct UserFeedView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
+                controller.mapViewCoordinator.controllerInstance = controller
                 controller.checkIfLocationServiceIsEnable()
             }
         }

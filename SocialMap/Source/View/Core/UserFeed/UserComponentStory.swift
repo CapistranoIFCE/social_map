@@ -20,6 +20,6 @@ struct UserComponentStory: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
         }
-        .padding(10)
+        .padding([.trailing], 26)
     }
 }

@@ -107,6 +107,7 @@ class CustomAnnotationView: MKAnnotationView {
 
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
     weak var mapViewInstance: MKMapView?
+    weak var controllerInstance: UserFeedController?
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
@@ -140,7 +141,10 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotationView = view as? CustomAnnotationView else { return }
-        annotationView.superview?.layoutIfNeeded()
+        guard let annotation = annotationView.annotation as? UserImageAnnotation else { return }
+        guard let controllerInstance = controllerInstance else { return }
+        
+        controllerInstance.changeCurrentLandmark(to: annotation)
         annotationView.openAlbum()
     }
     
