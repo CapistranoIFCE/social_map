@@ -10,10 +10,6 @@ struct PhotoPickerResult: Identifiable {
 class CustomAnnotationView: MKAnnotationView {
     var images: [UIImage] = []
     
-    fileprivate var image03TopConstraint: NSLayoutConstraint!
-    fileprivate var image02TopConstraint: NSLayoutConstraint!
-    fileprivate var image01TopConstraint: NSLayoutConstraint!
-    
     let image01: UIImageView = {
         let image1 = UIImageView()
         image1.contentMode = .scaleAspectFill
@@ -60,44 +56,36 @@ class CustomAnnotationView: MKAnnotationView {
     }
     
     func configureConstraints() {
-        image03TopConstraint = self.topAnchor.constraint(equalTo: self.topAnchor, constant: 45)
-        image02TopConstraint = image03.topAnchor.constraint(equalTo: self.topAnchor, constant: 30)
-        image01TopConstraint = image03.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
-        
-        image02TopConstraint.isActive = true
-        image01TopConstraint.isActive = true
         
         NSLayoutConstraint.activate([
             image01.topAnchor.constraint(
                 equalTo: image03.topAnchor,
-                constant: image01TopConstraint.constant
+                constant: -30
             ),
             
-            image01.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image01.widthAnchor.constraint(equalToConstant: 60),
             image01.heightAnchor.constraint(equalToConstant: 60),
+            image01.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
         ])
         
         NSLayoutConstraint.activate([
-<<<<<<< HEAD
             image02.topAnchor.constraint(
                 equalTo: image03.topAnchor,
-                constant: image02TopConstraint.constant
+                constant: -15
             ),
             
-            image02.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
             image02.widthAnchor.constraint(equalToConstant: 85),
             image02.heightAnchor.constraint(equalToConstant: 85),
+            image02.centerXAnchor.constraint(equalTo: image03.centerXAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            image03.topAnchor.constraint(equalTo: self.topAnchor, constant: image03TopConstraint.constant),
+            image03.topAnchor.constraint(
+                equalTo: self.topAnchor,
+                constant: 0
+            ),
             image03.widthAnchor.constraint(equalToConstant: 100),
-            image03.heightAnchor.constraint(equalToConstant: 100)
-=======
-            image02.topAnchor.constraint(equalTo: image01.topAnchor, constant: 10),
-            image02.widthAnchor.constraint(equalToConstant: 75),
-            image02.heightAnchor.constraint(equalToConstant: 75),
+            image02.heightAnchor.constraint(equalToConstant: 100),
             image02.centerXAnchor.constraint(equalTo: image01.centerXAnchor)
         ])
         
@@ -106,27 +94,14 @@ class CustomAnnotationView: MKAnnotationView {
             image03.widthAnchor.constraint(equalToConstant: 90),
             image03.heightAnchor.constraint(equalToConstant: 90),
             image03.centerXAnchor.constraint(equalTo: image02.centerXAnchor)
->>>>>>> 96a66d32b1343ecd5efb7c12d5f80a988eb88738
         ])
         
     }
     
     func closeAlbum() {
-        UIView.animate(withDuration: 1.0) {
-            self.image01TopConstraint.constant = 0
-            self.image02TopConstraint.constant = 35
-            self.image03TopConstraint.constant = 45
-            self.layoutIfNeeded()
-        }
     }
     
     func openAlbum() {
-        UIView.animate(withDuration: 1.0) {
-            self.image01TopConstraint.constant = 0
-            self.image02TopConstraint.constant = 70
-            self.image03TopConstraint.constant = 100
-            self.layoutIfNeeded()
-        }
     }
 }
 

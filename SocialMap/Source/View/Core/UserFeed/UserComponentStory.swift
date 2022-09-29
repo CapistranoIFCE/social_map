@@ -11,7 +11,7 @@ struct UserComponentStory: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: focused ? 84: 64, height: focused ? 84: 64)
+                .frame(width: 64, height: 64)
                 .clipShape(Capsule())
             
             Text(name)
@@ -20,6 +20,6 @@ struct UserComponentStory: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
         }
-        .padding()
+        .padding(10)
     }
 }

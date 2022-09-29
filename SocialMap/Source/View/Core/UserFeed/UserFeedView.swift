@@ -33,7 +33,7 @@ struct UserFeedView: View {
                     }
                     
                     VStack(alignment: .leading){
-                        Text("David's Albums")
+                        Text("Your's Albums")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
