@@ -11,6 +11,7 @@ class UserFeedController: NSObject, ObservableObject {
 //    @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
     @Published var mockedLandmarks = [UserImageAnnotation]()
     @Published var isPresented: Bool = false
+    @Published var isAlertPresented: Bool = false
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
     @Published var currentLandmark: UserImageAnnotation? = nil
@@ -266,6 +267,13 @@ class UserFeedController: NSObject, ObservableObject {
                 break
         @unknown default:
             break
+        }
+    }
+    
+    func deleteAnnotation(_ annotation: UserImageAnnotation) {
+        withAnimation(.easeOut) {
+            self.mockedLandmarks.removeAll(where: { $0.image == annotation.image })
+            self.mapViewCoordinator.mapViewInstance?.removeAnnotation(annotation)
         }
     }
 }

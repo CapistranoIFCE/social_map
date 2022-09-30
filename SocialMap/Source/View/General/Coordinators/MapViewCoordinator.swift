@@ -1,3 +1,4 @@
+import UIKit
 import Foundation
 import MapKit
 
@@ -103,8 +104,13 @@ class CustomAnnotationView: MKAnnotationView {
 }
 
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
+    private var title: String = "Delete"
     weak var mapViewInstance: MKMapView?
     weak var controllerInstance: UserFeedController?
+   
+    init(controllerInstance: UserFeedController? = nil) {
+        self.controllerInstance = controllerInstance
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard !(annotation is MKUserLocation) else { return nil }
@@ -129,6 +135,9 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             annotationView.layer.cornerRadius = 20
             annotationView.contentMode = .scaleAspectFit
             //            annotationView.canShowCallout = true
+            
+            let interaction = UIContextMenuInteraction(delegate: self)
+            annotationView.addInteraction(interaction)
             
             return annotationView
         }
@@ -174,5 +183,32 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             )
         }
         
+    }
+}
+
+extension MapViewCoordinator : UIContextMenuInteractionDelegate {
+
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        guard let annotationView = interaction.view as? MKAnnotationView else {
+            return nil
+        }
+
+        guard let annotation = annotationView.annotation as? UserImageAnnotation else {
+            return nil
+        }
+
+        return UIContextMenuConfiguration(identifier: "\(annotation.id)" as NSCopying, previewProvider: nil) { _ in
+//            let edit = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
+//                return
+//            }
+
+            let delete = UIAction(title: self.title, image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+                self.controllerInstance?.changeCurrentLandmark(to: annotation)
+                self.controllerInstance?.isAlertPresented = true
+            }
+                                    
+            return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [delete])
+        }
     }
 }
