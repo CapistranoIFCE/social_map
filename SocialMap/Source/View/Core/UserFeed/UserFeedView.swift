@@ -10,40 +10,65 @@ struct UserFeedView: View {
         NavigationView{
             GeometryReader { (geometry) in
                 VStack {
-                    MapView (
-                        landmarks: controller.mockedLandmarks,
-                        coordinator: controller.mapViewCoordinator,
-                        locationCoordinate: controller.userLocation?.center ?? .init(),
-                        onLongPress: controller.callPhotoPicker,
-                        oneClickCallback: controller.startAnimation
-                    )
+                    ZStack {
+                        MapView (
+                            landmarks: controller.mockedLandmarks,
+                            coordinator: controller.mapViewCoordinator,
+                            locationCoordinate: controller.userLocation?.center ?? .init(),
+                            onLongPress: controller.callPhotoPicker,
+                            oneClickCallback: controller.startAnimation
+                        )
+                        
+                        Image(systemName: "photo.on.rectangle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 46, height: 46)
+                            .position(controller.currentPinPosition)
+                            .opacity(controller.addPhotoPin ? 1 : 0)
+                            .shadow(
+                                color: .black,
+                                radius: controller.addPhotoPin ? 10 : 0,
+                                x: 0.5, y: 1.5
+                            )
+                    }
                     
                     VStack(alignment: .leading){
-                        Text("David's Albums")
+                        Text(
+                            !controller.mockedLandmarks.isEmpty ?
+                            "Your's Albums" : "No Albums Yet")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
                         
                         HStack{
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                Spacer()
-                                HStack {
-                                    ForEach(controller.mockedLandmarks) { story in
-                                        UserComponentStory (
-                                            image: story.image,
-                                            name: story.title ?? "Untitle",
-                                            focused: story == controller.currentLandmark
-                                        ).onTapGesture {
-                                            controller.changeCurrentLandmark(to: story)
+                            if controller.mockedLandmarks.isEmpty {
+                                Text("Add your first album!")
+                                    .font(.body)
+                            } else {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    Spacer()
+                                    HStack {
+                                        ForEach(controller.mockedLandmarks) { story in
+                                            UserComponentStory (
+                                                image: story.image,
+                                                name: story.title ?? "Untitle",
+                                                focused: story == controller.currentLandmark
+                                            ).onTapGesture {
+                                                controller.changeCurrentLandmark(to: story)
+                                            }
                                         }
+                                        
                                     }
-                                    
                                 }
+                                .padding([.leading], 12)
+                                .frame(height: geometry.size.height * 0.12)
                             }
-                            .frame(height: geometry.size.height * 0.12)
-                        }
+                            }
+                            
                     }
                 }
+//                .clipShape( RoundedCorner(radius: 24, corners: [.topLeft, .topRight]) )
+                
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -94,6 +119,29 @@ struct UserFeedView: View {
                                 isPresented: $controller.isPresented
                             )
                         }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            if controller.addPhotoPin {
+                                controller.addPinAsAnnotation()
+                            }
+                            controller.addPhotoPin.toggle()
+                        } label: {
+                            if controller.addPhotoPin {
+                                Text("Done")
+                                    .font(.caption)
+                                    .padding(6)
+                                    .foregroundColor(.black)
+                                    .background(Color("AccentColor"))
+                                    .cornerRadius(8)
+                            } else {
+                                Image(
+                                    systemName: "plus.rectangle.fill.on.rectangle.fill"
+                                )
+                            }
+                        }
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
