@@ -2,7 +2,6 @@ import UIKit
 import Foundation
 import MapKit
 
-
 class MapViewCoordinator: NSObject, MKMapViewDelegate {
     private var title: String = "Delete"
     weak var mapViewInstance: MKMapView?
@@ -29,30 +28,7 @@ class MapViewCoordinator: NSObject, MKMapViewDelegate {
             annotationView.canShowCallout = true
             
             let interaction = UIContextMenuInteraction(delegate: self)
-            
             annotationView.addInteraction(interaction)
-            
-            // cria o botao INFO
-//            let btn = UIButton(type: .detailDisclosure)
-//            annotationView.rightCalloutAccessoryView = btn
-            
-            
-//            let FirstAction = UIAction(title: "First Action"),
-//                handler: {_ in
-//                    print("First action")
-//                })
-//            
-//            let secondAction = UIAction(title: "Second Action",
-//                                        handler: {_ in
-//                print("Second action")
-//            })
-            
-//            let button = UIButton(type: .detailDisclosure)
-//            button.menu = UIMenu(title: "My Title")
-//            button.showsMenuAsPrimaryAction = true
-//            annotationView.canShowCallout = true
-//            annotationView.rightCalloutAccessoryView = button
-            
             
             return annotationView
         }
@@ -110,9 +86,6 @@ extension MapViewCoordinator : UIContextMenuInteractionDelegate {
             }
             
             let delete = UIAction(title: self.title, image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-//                let result = self.controllerInstance?.mockedLandmarks.first { $0.image == annotation.image }
-//                print(annotation.image)
-//                print(result?.image)
                 self.controllerInstance?.mockedLandmarks.removeAll(where: { $0.image == annotation.image })
                 self.mapViewInstance?.removeAnnotation(annotation)
             }
