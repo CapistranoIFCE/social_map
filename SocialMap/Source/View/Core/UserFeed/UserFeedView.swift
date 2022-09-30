@@ -112,6 +112,16 @@ struct UserFeedView: View {
                         }
                         .foregroundColor(.blue.opacity(0.00001))
                 }
+                .alert(isPresented: $controller.isAlertPresented) {
+                    Alert(
+                        title: Text(controller.currentLandmark?.title ?? ""),
+                        message: Text("Are you sure that you want to delete this album?"),
+                        primaryButton: .cancel(),
+                        secondaryButton: .destructive(Text("Delete")) {
+                            controller.deleteAnnotation(controller.currentLandmark!)
+                        }
+                    )
+                }
                 .sheet(isPresented: $controller.isPresented) {
                             PhotoPicker(
                                 configuration: controller.config,

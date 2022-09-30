@@ -199,17 +199,16 @@ extension MapViewCoordinator : UIContextMenuInteractionDelegate {
         }
 
         return UIContextMenuConfiguration(identifier: "\(annotation.id)" as NSCopying, previewProvider: nil) { _ in
-            
-            let edit = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
-                return
-            }
-            
+//            let edit = UIAction(title: "Edit title", image: UIImage(systemName: "pencil")) { _ in
+//                return
+//            }
+
             let delete = UIAction(title: self.title, image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-                self.controllerInstance?.mockedLandmarks.removeAll(where: { $0.image == annotation.image })
-                self.mapViewInstance?.removeAnnotation(annotation)
+                self.controllerInstance?.changeCurrentLandmark(to: annotation)
+                self.controllerInstance?.isAlertPresented = true
             }
                                     
-            return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [edit, delete])
+            return UIMenu(title: annotation.title ?? "", image: nil, identifier: nil, options: [], children: [delete])
         }
     }
 }
