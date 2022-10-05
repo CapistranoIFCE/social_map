@@ -35,7 +35,7 @@ struct UserFeedView: View {
                     VStack(alignment: .leading){
                         Text(
                             !controller.mockedLandmarks.isEmpty ?
-                            "Your's Albums" : "No Albums Yet")
+                            "My Albums" : "No Albums Yet")
                             .font(.system(size: 20))
                             .bold()
                             .padding()

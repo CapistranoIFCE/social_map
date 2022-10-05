@@ -575,7 +575,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.ifce.ada.PicMap;
 				PRODUCT_NAME = PicMap;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -608,7 +608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.ifce.ada.PicMap;
 				PRODUCT_NAME = PicMap;
 				SWIFT_EMIT_LOC_STRINGS = YES;
