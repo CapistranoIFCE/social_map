@@ -67,8 +67,6 @@ struct UserFeedView: View {
                             
                     }
                 }
-//                .clipShape( RoundedCorner(radius: 24, corners: [.topLeft, .topRight]) )
-                
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -78,7 +76,6 @@ struct UserFeedView: View {
                 .position(controller.pulseOrigin)
                 .opacity(controller.onHold ? 1 : 0)
                 
-                
                 HStack {
                     Rectangle()
                         .frame (
@@ -87,7 +84,7 @@ struct UserFeedView: View {
                             geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
-                            controller.goToPreviousImage()
+                            controller.goToImage(on: .left)
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         } )
                         .onTapGesture {
@@ -104,7 +101,7 @@ struct UserFeedView: View {
                             geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
-                            controller.goToNextImage()
+                            controller.goToImage(on: .right)
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         })
                         .onTapGesture {
@@ -124,7 +121,7 @@ struct UserFeedView: View {
                 }
                 .sheet(isPresented: $controller.isPresented) {
                             PhotoPicker(
-                                configuration: controller.config,
+                                configuration: controller.photoPickerManager.configuration,
                                 photoPickerDismissCallBack: controller.photoPickerHasBeingDismiss,
                                 isPresented: $controller.isPresented
                             )
@@ -156,14 +153,8 @@ struct UserFeedView: View {
             .edgesIgnoringSafeArea(.top)
             .onAppear {
                 controller.mapViewCoordinator.controllerInstance = controller
-                controller.checkIfLocationServiceIsEnable()
+                controller.initLocation()
             }
         }
-    }
-}
-
-struct UserFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserFeedView()
     }
 }

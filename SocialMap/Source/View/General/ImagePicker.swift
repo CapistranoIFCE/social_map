@@ -5,7 +5,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
     
     let configuration: PHPickerConfiguration
-    let photoPickerDismissCallBack: (_ pickedImages: [UIImage]) -> Void  
+    let photoPickerDismissCallBack: (_ pickedImages: [UIImage]) -> Void
+    
     @Binding var isPresented: Bool
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
