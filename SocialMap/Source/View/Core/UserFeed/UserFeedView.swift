@@ -12,7 +12,7 @@ struct UserFeedView: View {
                 VStack {
                     ZStack {
                         MapView (
-                            landmarks: controller.mockedLandmarks,
+                            landmarks: controller.landMarks,
                             coordinator: controller.mapViewCoordinator,
                             locationCoordinate: controller.userLocation?.center ?? .init(),
                             onLongPress: controller.callPhotoPicker,
@@ -34,21 +34,21 @@ struct UserFeedView: View {
                     
                     VStack(alignment: .leading){
                         Text(
-                            !controller.mockedLandmarks.isEmpty ?
-                            "My Albums" : "No Albums Yet")
+                            !controller.landMarks.isEmpty ?
+                            "Your's Albums" : "No Albums Yet")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
                         
                         HStack{
-                            if controller.mockedLandmarks.isEmpty {
+                            if controller.landMarks.isEmpty {
                                 Text("Add your first album!")
                                     .font(.body)
                             } else {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     Spacer()
                                     HStack {
-                                        ForEach(controller.mockedLandmarks) { story in
+                                        ForEach(controller.landMarks) { story in
                                             UserComponentStory (
                                                 image: story.image,
                                                 name: story.title ?? "Untitle",
@@ -67,8 +67,6 @@ struct UserFeedView: View {
                             
                     }
                 }
-//                .clipShape( RoundedCorner(radius: 24, corners: [.topLeft, .topRight]) )
-                
                 
                 LottieView(
                     lottieFile: "pulse",
@@ -78,7 +76,6 @@ struct UserFeedView: View {
                 .position(controller.pulseOrigin)
                 .opacity(controller.onHold ? 1 : 0)
                 
-                
                 HStack {
                     Rectangle()
                         .frame (
@@ -87,7 +84,7 @@ struct UserFeedView: View {
                             geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
-                            controller.goToPreviousImage()
+                            controller.goToImage(on: .left)
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         } )
                         .onTapGesture {
@@ -104,7 +101,7 @@ struct UserFeedView: View {
                             geometry.size.height * 0.12
                         )
                         .onTapGesture(count: 2, perform: {
-                            controller.goToNextImage()
+                            controller.goToImage(on: .right)
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         })
                         .onTapGesture {
@@ -122,11 +119,11 @@ struct UserFeedView: View {
                         }
                     )
                 }
-                .sheet(isPresented: $controller.isPresented) {
+                .sheet(isPresented: $controller.isPhotoPickerPresented) {
                             PhotoPicker(
-                                configuration: controller.config,
+                                configuration: controller.photoPickerManager.configuration,
                                 photoPickerDismissCallBack: controller.photoPickerHasBeingDismiss,
-                                isPresented: $controller.isPresented
+                                isPresented: $controller.isPhotoPickerPresented
                             )
                         }
                 .toolbar {
@@ -156,14 +153,8 @@ struct UserFeedView: View {
             .edgesIgnoringSafeArea(.top)
             .onAppear {
                 controller.mapViewCoordinator.controllerInstance = controller
-                controller.checkIfLocationServiceIsEnable()
+                controller.initLocation()
             }
         }
-    }
-}
-
-struct UserFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserFeedView()
     }
 }
