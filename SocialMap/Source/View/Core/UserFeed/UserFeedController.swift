@@ -8,9 +8,8 @@ import SwiftUI
 
 class UserFeedController: NSObject, ObservableObject {
     @Published var userLocation: MKCoordinateRegion?
-//    @Published var mockedLandmarks = UserImageAnnotation.requestMockData()
-    @Published var mockedLandmarks = [UserImageAnnotation]()
-    @Published var isPresented: Bool = false
+    @Published var landMarks = [UserImageAnnotation]()
+    @Published var isPhotoPickerPresented: Bool = false
     @Published var isAlertPresented: Bool = false
     @Published var pulseOrigin = CGPoint(x: 0.0, y: 0.0)
     @Published var onHold = false
@@ -21,10 +20,11 @@ class UserFeedController: NSObject, ObservableObject {
         y: UIScreen.main.bounds.height * 0.5
     )
 
-    let mapViewCoordinator = MapViewCoordinator()
-    let animationView = AnimationView()
     let locationManager = LocationManager()
     let photoPickerManager = PhotoPickerManager()
+    let mapViewCoordinator = MapViewCoordinator()
+    let animationView = AnimationView()
+    
     var shouldCallPhotoPicker = false
     var holdTime = 0
     
@@ -32,7 +32,7 @@ class UserFeedController: NSObject, ObservableObject {
         if userLocation != nil {
             let nearestLandmark = findNearLandmark(
                 on: side,
-                in: mockedLandmarks,
+                in: landMarks,
                 by: currentLandmark?.coordinate ?? userLocation!.center
             )
             changeCurrentLandmark(to: nearestLandmark)
@@ -55,13 +55,14 @@ class UserFeedController: NSObject, ObservableObject {
     
     func deleteAnnotation(_ annotation: UserImageAnnotation) {
         withAnimation(.easeOut) {
-            self.mockedLandmarks.removeAll(where: { $0.image == annotation.image })
+            self.landMarks.removeAll(where: { $0.image == annotation.image })
             self.mapViewCoordinator.mapViewInstance?.removeAnnotation(annotation)
         }
     }
     
     func addPinAsAnnotation() {
         guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        
         let pinPositionAsCoordinate = mapViewInstance.convert(
             self.currentPinPosition,
             toCoordinateFrom: mapViewInstance
@@ -79,21 +80,17 @@ class UserFeedController: NSObject, ObservableObject {
     }
     
     private func addPlaceholderPin(on mapView: MKMapView, in location: CLLocationCoordinate2D) {
-        let placeHolder = UserImageAnnotation(
-            title: "",
-            subtitle: "",
-            image: [UIImage(systemName: "photo.on.rectangle")!],
-            coordinate: location
-        )
+        let placeHolder = UserImageAnnotation.annotationPlaceholder(on: location)
+        
         self.changeCurrentLandmark(to: placeHolder)
-        mockedLandmarks.append(placeHolder)
+        landMarks.append(placeHolder)
         mapView.addAnnotation(placeHolder)
     }
     
     
     private func removePlaceholderPin(on mapView: MKMapView, placeholderPin: UserImageAnnotation) {
         mapView.removeAnnotation(placeholderPin)
-        self.mockedLandmarks.removeLast()
+        self.landMarks.removeLast()
     }
     
     func changeCurrentLandmark(to newLandmark: UserImageAnnotation?) {
@@ -107,7 +104,7 @@ class UserFeedController: NSObject, ObservableObject {
     }
     
     func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
-        guard let placeholderPin = mockedLandmarks.last else { return }
+        guard let placeholderPin = landMarks.last else { return }
         guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
         
         DispatchQueue.main.async {
@@ -124,7 +121,7 @@ class UserFeedController: NSObject, ObservableObject {
                 )
                 
                 withAnimation(.spring()) {
-                    self.mockedLandmarks.insert(newAnnotation, at: 0)
+                    self.landMarks.insert(newAnnotation, at: 0)
                 }
                 
                 self.changeCurrentLandmark(to: newAnnotation)
@@ -146,7 +143,7 @@ class UserFeedController: NSObject, ObservableObject {
                                 longitude: location.longitude
                             )
                         )
-                        self.isPresented.toggle()
+                        self.isPhotoPickerPresented.toggle()
                     }
                 }
             }

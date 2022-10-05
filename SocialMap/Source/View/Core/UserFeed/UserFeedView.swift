@@ -12,7 +12,7 @@ struct UserFeedView: View {
                 VStack {
                     ZStack {
                         MapView (
-                            landmarks: controller.mockedLandmarks,
+                            landmarks: controller.landMarks,
                             coordinator: controller.mapViewCoordinator,
                             locationCoordinate: controller.userLocation?.center ?? .init(),
                             onLongPress: controller.callPhotoPicker,
@@ -34,21 +34,21 @@ struct UserFeedView: View {
                     
                     VStack(alignment: .leading){
                         Text(
-                            !controller.mockedLandmarks.isEmpty ?
+                            !controller.landMarks.isEmpty ?
                             "Your's Albums" : "No Albums Yet")
                             .font(.system(size: 20))
                             .bold()
                             .padding()
                         
                         HStack{
-                            if controller.mockedLandmarks.isEmpty {
+                            if controller.landMarks.isEmpty {
                                 Text("Add your first album!")
                                     .font(.body)
                             } else {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     Spacer()
                                     HStack {
-                                        ForEach(controller.mockedLandmarks) { story in
+                                        ForEach(controller.landMarks) { story in
                                             UserComponentStory (
                                                 image: story.image,
                                                 name: story.title ?? "Untitle",
@@ -119,11 +119,11 @@ struct UserFeedView: View {
                         }
                     )
                 }
-                .sheet(isPresented: $controller.isPresented) {
+                .sheet(isPresented: $controller.isPhotoPickerPresented) {
                             PhotoPicker(
                                 configuration: controller.photoPickerManager.configuration,
                                 photoPickerDismissCallBack: controller.photoPickerHasBeingDismiss,
-                                isPresented: $controller.isPresented
+                                isPresented: $controller.isPhotoPickerPresented
                             )
                         }
                 .toolbar {

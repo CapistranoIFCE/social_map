@@ -20,6 +20,14 @@ class UserImageAnnotation: NSObject, MKAnnotation, Identifiable {
 }
 
 extension UserImageAnnotation {
+    static func annotationPlaceholder(on location: CLLocationCoordinate2D) -> UserImageAnnotation {
+        return UserImageAnnotation(
+            title: "",
+            subtitle: "",
+            image: [UIImage(systemName: "photo.on.rectangle")!],
+            coordinate: location
+        )
+    }
     
     static func requestMockData() -> [UserImageAnnotation] {
         let mockedModelData = UserStory.mocketStories
