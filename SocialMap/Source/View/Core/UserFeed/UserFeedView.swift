@@ -14,9 +14,7 @@ struct UserFeedView: View {
                         MapView (
                             landmarks: controller.landMarks,
                             coordinator: controller.mapViewCoordinator,
-                            locationCoordinate: controller.userLocation?.center ?? .init(),
-                            onLongPress: controller.callPhotoPicker,
-                            oneClickCallback: controller.startAnimation
+                            locationCoordinate: controller.userLocation?.center ?? .init()
                         )
                         
                         Image(systemName: "photo.on.rectangle")
@@ -152,7 +150,6 @@ struct UserFeedView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .onAppear {
-                controller.mapViewCoordinator.controllerInstance = controller
                 controller.initLocation()
             }
         }

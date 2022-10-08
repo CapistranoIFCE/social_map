@@ -7,8 +7,6 @@ struct MapView: UIViewRepresentable {
     var landmarks: [UserImageAnnotation]
     var coordinator: MapViewCoordinator
     var locationCoordinate: CLLocationCoordinate2D
-    let onLongPress: (_ location: Location, _ mapView: MKMapView) -> Void
-    let oneClickCallback: (_ point: CGPoint, _ mapView: MKMapView) -> Void
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -34,16 +32,13 @@ struct MapView: UIViewRepresentable {
         uiView.addAnnotations(landmarks)
     }
     
-    private func configureGesture() -> CustomGestureRecognizer {
-        let onLongTapGesture = CustomGestureRecognizer (
+    private func configureGesture() -> UILongPressGestureRecognizer {
+        let onLongTapGesture = UILongPressGestureRecognizer (
             target: coordinator,
             action: #selector(MapViewCoordinator.handleLongTapGesture(gestureRecognizer:))
         )
         
         onLongTapGesture.minimumPressDuration = 0.5
-        onLongTapGesture.longPressCallback = onLongPress
-        onLongTapGesture.oneClickCallback = oneClickCallback
-        
         return onLongTapGesture
     }
     

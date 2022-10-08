@@ -7,7 +7,7 @@
 
 import XCTest
 import MapKit
-@testable import SocialMap
+@testable import PicMap
 import CoreMIDI
 
 class UserFeedControllerTest: XCTestCase {
@@ -23,16 +23,19 @@ class UserFeedControllerTest: XCTestCase {
             UserImageAnnotation(
                 title: "sut1",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.7971866074375087, longitude: -38.56979534530145)
             ),
             UserImageAnnotation(
                 title: "sut2",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.74217, longitude: -38.53488)
             ),
             UserImageAnnotation(
                 title: "sut3",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
             ),
         ]
@@ -41,16 +44,19 @@ class UserFeedControllerTest: XCTestCase {
             UserImageAnnotation(
                 title: "sut3",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.7264977742709626, longitude: -38.52656187487842)
             ),
             UserImageAnnotation(
                 title: "sut2",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.74217, longitude: -38.53488)
             ),
             UserImageAnnotation(
                 title: "sut1",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: -3.7971866074375087, longitude: -38.56979534530145)
             )
         ]
@@ -59,16 +65,19 @@ class UserFeedControllerTest: XCTestCase {
             UserImageAnnotation(
                 title: "sut4",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
             ),
             UserImageAnnotation(
                 title: "sut5",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: 1.0, longitude: -1.0)
             ),
             UserImageAnnotation(
                 title: "sut6",
                 subtitle: "",
+                image: [UIImage(systemName: "photo")!],
                 coordinate: CLLocationCoordinate2D(latitude: 2.0, longitude: 1.0)
             )
         ]
