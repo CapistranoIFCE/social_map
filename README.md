@@ -2,7 +2,7 @@
 
 <img width="175" alt="image" src="https://user-images.githubusercontent.com/56696275/194717478-6c0c3d08-dc2c-4948-a018-3d692b7a9a17.png">
 
-<img src="https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white">
+<img src="https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white"> 
 
 ## PT-BR
 
@@ -10,7 +10,7 @@
 
 Pic Map é um aplicativo que busca colocar o usuário mais próximo das informações que ele vê na internet. Seu objetivo é evoluir a experiência do uso de uma rede social qualquer. O funcionamento do aplicativo consiste no cadastro de imagens por partes do usuário, formando um album, e no compartilhamento dessas informações por meio de um link, permitindo que um outro usuário possa abrir tal link, visualizar e navegar por essas imagens que foram registradas. Sua principal essência consiste em ser algo agradável e prazeroso de se utilizar, no que diz respeito a interfaces e experiência.
 
-<img src="https://user-images.githubusercontent.com/56696275/194717384-11572b00-6adb-49a2-a73b-49ed0292fd4e.png" width="250" height="500">
+<img src="https://user-images.githubusercontent.com/56696275/194717384-11572b00-6adb-49a2-a73b-49ed0292fd4e.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/56696275/194718602-dcab6e52-44f8-4f9a-a935-61db3ad34e4f.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/56696275/194718658-f7de2a54-dd40-480c-ac25-b82992546ac5.png" width="200" height="400"> <img src="https://user-images.githubusercontent.com/56696275/194718686-17de3cae-3234-4e73-a056-7aa91dc3c2fd.png" width="200" height="400"> 
 
 ### Ajustes e melhorias
 
