@@ -22,12 +22,18 @@ class UserFeedController: NSObject, ObservableObject {
 
     let locationManager = LocationManager()
     let photoPickerManager = PhotoPickerManager()
-    let mapViewCoordinator = MapViewCoordinator()
     let animationView = AnimationView()
+    var mapViewCoordinator: MapViewCoordinator!
     
     var shouldCallPhotoPicker = false
     var holdTime = 0
     
+    override init() {
+        super.init()
+        self.mapViewCoordinator = MapViewCoordinator()
+        self.mapViewCoordinator.viewControllerDelegate = self
+    }
+
     func goToImage(on side: DeviceSide) {
         if userLocation != nil {
             let nearestLandmark = findNearLandmark(
@@ -68,15 +74,13 @@ class UserFeedController: NSObject, ObservableObject {
             toCoordinateFrom: mapViewInstance
         )
         
-        shouldCallPhotoPicker = true
-        
-        self.callPhotoPicker(
-            Location(
-                latitude: pinPositionAsCoordinate.latitude,
-                longitude: pinPositionAsCoordinate.longitude
-            ),
-            mapViewInstance
+        let locationObject = Location(
+            latitude: pinPositionAsCoordinate.latitude,
+            longitude: pinPositionAsCoordinate.longitude
         )
+
+        shouldCallPhotoPicker = true
+        self.callPhotoPicker(at: locationObject, in: mapViewInstance)
     }
     
     private func addPlaceholderPin(on mapView: MKMapView, in location: CLLocationCoordinate2D) {
@@ -91,16 +95,6 @@ class UserFeedController: NSObject, ObservableObject {
     private func removePlaceholderPin(on mapView: MKMapView, placeholderPin: UserImageAnnotation) {
         mapView.removeAnnotation(placeholderPin)
         self.landMarks.removeLast()
-    }
-    
-    func changeCurrentLandmark(to newLandmark: UserImageAnnotation?) {
-        self.currentLandmark = newLandmark
-        self.userLocation?.center = newLandmark?.coordinate ??
-        locationManager.manager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
-        
-        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
-        guard let annotation = newLandmark else { return }
-        mapViewInstance.selectAnnotation(annotation, animated: false)
     }
     
     func photoPickerHasBeingDismiss(_ pickedImages: [UIImage]) {
@@ -131,36 +125,7 @@ class UserFeedController: NSObject, ObservableObject {
         
         
     }
-    
-    func callPhotoPicker(_ location: Location, _ mapView: MKMapView) {
-        if shouldCallPhotoPicker {
-            self.photoPickerManager.checkPhotoPickerPermission { status in
-                if status == .authorized {
-                    DispatchQueue.main.async {
-                        self.addPlaceholderPin (
-                            on: mapView, in: CLLocationCoordinate2D (
-                                latitude: location.latitude,
-                                longitude: location.longitude
-                            )
-                        )
-                        self.isPhotoPickerPresented.toggle()
-                    }
-                }
-            }
-        }
-        self.holdTime = 0
-        self.onHold = false
-        self.shouldCallPhotoPicker = false
-    }
-    
-    
-    func startAnimation(_ point: CGPoint, _ mapView: MKMapView) {
-        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-        withAnimation(.spring().speed(0.05)) { self.onHold = true }
-        self.pulseOrigin = point
-        self.startTimer()
-    }
-    
+ 
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
             if self.onHold {
@@ -207,11 +172,60 @@ class UserFeedController: NSObject, ObservableObject {
         
         return side == DeviceSide.right ? findNearLandmarkRight() : findNearLandmarkLeft()
     }
+    
+    func callPhotoPicker(at location: Location, in mapView: MKMapView) {
+        if shouldCallPhotoPicker {
+            self.photoPickerManager.checkPhotoPickerPermission { status in
+                if status == .authorized {
+                    DispatchQueue.main.async {
+                        self.addPlaceholderPin (
+                            on: mapView, in: CLLocationCoordinate2D (
+                                latitude: location.latitude,
+                                longitude: location.longitude
+                            )
+                        )
+                        self.isPhotoPickerPresented.toggle()
+                    }
+                }
+            }
+        }
+        self.holdTime = 0
+        self.onHold = false
+        self.shouldCallPhotoPicker = false
+    }
 }
 
 extension UserFeedController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 //        self.initLocation( )
+    }
+}
+
+extension UserFeedController: UserFeedControllerDelegate {
+    
+    func didTapOnMap(at point: CGPoint, in mapView: MKMapView) {
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+        withAnimation(.spring().speed(0.05)) { self.onHold = true }
+        self.pulseOrigin = point
+        self.startTimer()
+    }
+    
+    func didLongPressOnMap(at location: Location, in mapView: MKMapView) {
+        self.callPhotoPicker(at: location, in: mapView)
+    }
+    
+    func changeCurrentLandmark(to newLandmark: UserImageAnnotation?) {
+        self.currentLandmark = newLandmark
+        self.userLocation?.center = newLandmark?.coordinate ??
+        locationManager.manager?.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+        
+        guard let mapViewInstance = self.mapViewCoordinator.mapViewInstance else { return }
+        guard let annotation = newLandmark else { return }
+        mapViewInstance.selectAnnotation(annotation, animated: false)
+    }
+    
+    func showDeleteAlert() {
+        self.isAlertPresented = true
     }
 }
 
