@@ -87,5 +87,3 @@ Como alternativa, consulte a documentação do GitHub em [como criar uma solicit
     </td>
   </tr>
 </table>
-
-
