@@ -141,35 +141,27 @@ class UserFeedController: NSObject, ObservableObject {
     
     func findNearLandmark(on side: DeviceSide, in landmarks: [UserImageAnnotation], by startLocation: CLLocationCoordinate2D) -> UserImageAnnotation? {
         
+        var nearLandmarks = [UserImageAnnotation]()
+        
         func findNearLandmarkRight() -> UserImageAnnotation? {
-            var rigthLandmarks = [UserImageAnnotation]()
-            
             for landmark in landmarks {
                 if landmark.coordinate.longitude > startLocation.longitude {
-                    rigthLandmarks.append(landmark)
+                    nearLandmarks.append(landmark)
                 }
             }
-            
-            rigthLandmarks = rigthLandmarks.sorted(by: { $0.coordinate.longitude < $1.coordinate.longitude })
-            
-            return rigthLandmarks.first
+            nearLandmarks = nearLandmarks.sorted(by: { $0.coordinate.longitude < $1.coordinate.longitude })
+            return nearLandmarks.first
         }
         
         func findNearLandmarkLeft() -> UserImageAnnotation? {
-            var leftLandmarks = [UserImageAnnotation]()
-            
             for landmark in landmarks {
                 if landmark.coordinate.longitude < startLocation.longitude {
-                    leftLandmarks.append(landmark)
+                    nearLandmarks.append(landmark)
                 }
             }
-            
-            leftLandmarks = leftLandmarks.sorted(by: { $0.coordinate.longitude > $1.coordinate.longitude })
-            
-            return leftLandmarks.first
+            nearLandmarks = nearLandmarks.sorted(by: { $0.coordinate.longitude > $1.coordinate.longitude })
+            return nearLandmarks.first
         }
-    
-        
         return side == DeviceSide.right ? findNearLandmarkRight() : findNearLandmarkLeft()
     }
     
